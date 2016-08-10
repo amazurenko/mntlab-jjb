@@ -1,0 +1,4 @@
+---
+- job:
+        name: MNTLAB-amazurenko-main-job
+        description: 'main job'        
