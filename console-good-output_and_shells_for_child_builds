@@ -1,0 +1,43 @@
+Console Output
+
+Started by upstream project "MNTLAB-vshulhach-main-build-job" build number 20
+originally caused by:
+ Started by user vitali
+Building on master in workspace /opt/jenkins_home/jobs/MNTLAB-vshulhach-child1-build-job/workspace
+ > git rev-parse --is-inside-work-tree # timeout=10
+Fetching changes from the remote Git repository
+ > git config remote.origin.url git@github.com:amazurenko/mntlab-jjb.git # timeout=10
+Fetching upstream changes from git@github.com:amazurenko/mntlab-jjb.git
+ > git --version # timeout=10
+using GIT_SSH to set credentials 
+ > git fetch --tags --progress git@github.com:amazurenko/mntlab-jjb.git +refs/heads/*:refs/remotes/origin/*
+ > git rev-parse refs/remotes/origin/vshulhach^{commit} # timeout=10
+ > git rev-parse refs/remotes/origin/origin/vshulhach^{commit} # timeout=10
+Checking out Revision f1eb5d4f11a2a8d2d7f594f9ec2e2450a4259148 (refs/remotes/origin/vshulhach)
+ > git config core.sparsecheckout # timeout=10
+ > git checkout -f f1eb5d4f11a2a8d2d7f594f9ec2e2450a4259148
+ > git rev-list f1eb5d4f11a2a8d2d7f594f9ec2e2450a4259148 # timeout=10
+[workspace] $ /bin/sh -xe /tmp/hudson6699295439582941627.sh
++ chmod +x script.sh
++ ./script.sh
+Hello World. Current branch is vshulhach
++ echo vshulhach
+vshulhach
++ ls -al
+total 884
+drwxr-xr-x 3 jenkins jenkins   4096 Aug 11 17:13 .
+drwxr-xr-x 4 jenkins jenkins   4096 Aug 11 17:13 ..
+-rw-r--r-- 1 jenkins jenkins     11 Aug 11 15:41 1
+drwxr-xr-x 8 jenkins jenkins   4096 Aug 11 17:13 .git
+-rw-r--r-- 1 jenkins jenkins   2049 Aug 11 15:49 push3
+-rwxr-xr-x 1 jenkins jenkins     58 Aug 11 17:13 script.sh
+-rw-r--r-- 1 jenkins jenkins 880640 Aug 11 17:11 vshulhach_jjb_templates.tar.gz
++ tar -czf vshulhach_jjb_templates.tar.gz -C ./ script.sh vshulhach_jjb_templates.tar.gz
+Finished: SUCCESS
+
+Shell:
+chmod +x script.sh
+./script.sh
+echo ${BRANCH}
+ls -al
+tar -czf ${BRANCH}_jjb_templates.tar.gz -C ./ *.*
