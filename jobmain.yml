@@ -1,9 +1,3 @@
-- project: 
-        name: MNT-parent
-        name: "ylikhachou"
-        target: build
-        jobs:
-            - 'MNTLAB-{name}-main-build-job'
 - job-template: 
       name: 'MNTLAB-{student}-main-build-job'
       parameters:
@@ -12,34 +6,19 @@
               script: "def list = ['master','ylikhachou']"
               remote: false
               read-only: false
-          - raw: 
-                xml: |
-          <com.seitenbau.jenkins.plugins.dynamicparameter.ChoiceParameterDefinition plugin="dynamicparameter@0.2.0">      
-                <name>BRANCH_NAME</name>
-                <description></description>
-                <__uuid>c9f1e7e1-e262-4865-8484-d7e6cfdef44d</__uuid>
-                <__remote>false</__remote>
-                <__script>def list = [&quot;master&quot;,&quot;ylikhachou&quot;]</__script>
-                <__localBaseDirectory serialization="custom">
-                <hudson.FilePath>
-                        <default>
-                        <remote>/var/lib/jenkins/dynamic_parameter/classpath</remote>
-                        </default>
-                        <boolean>true</boolean>
-                </hudson.FilePath>
-                </__localBaseDirectory>
-                <__remoteBaseDirectory>dynamic_parameter_classpath</__remoteBaseDirectory>
-                <__classPath></__classPath>
-          <readonlyInputField>false</readonlyInputField>
-        </com.seitenbau.jenkins.plugins.dynamicparameter.ChoiceParameterDefinition>
-        <com.cwctravel.hudson.plugins.extended__choice__parameter.ExtendedChoiceParameterDefinition plugin="extended-choice-parameter@0.74">
+          - extended-choice:
+              name: BUILD_TRIGGER
+              description: "Available options"
+              type: checkbox
+              value: "MNTLAB-ylikhachou-child1-build-job,MNTLAB-ylikhachou-child2-build-job,MNTLAB-ylikhachou-child3-build-job,MNTLAB-ylikhachou-child4-build-job"
+              visible-items: 4
+              multi-select-delimiter: ',' 
       builders:
-            - trigger-builds:
-                - project: "${{BUILD_JOBS}}"
-                  predefined-parameters:
-                      BRANCH_NAME=${{BRANCH_NAME}}
-                  block: true 
-
+          - trigger-builds:
+              - project: "${{BUILD_TRIGGER}}"
+                predefined-parameters:
+                    BRANCH_NAME=${{BRANCH_NAME}}
+                block: true 
 
 - project: 
         name: MNT-parent
