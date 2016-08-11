@@ -19,11 +19,11 @@
                                 def jobs = []
                                 hudson.model.Hudson.instance.items.findAll{{job -&gt; job}}.each {{
                                 job -&gt;
-                                if(job.name.startsWith(&quot;MNTLAB-ykarotkin-child&quot;)) jobs &lt;&lt; job.name}}
+                                if(job.name.startsWith(&quot;MNTLAB-karotkin-child&quot;)) jobs &lt;&lt; job.name}}
                                 return jobs</script>
                                 <fallbackScript></fallbackScript>
                         </script>
-                        <projectName>MNTLAB-ykarotkin-main-build-job</projectName>
+                        <projectName>MNTLAB-karotkin-main-build-job</projectName>
                         <choiceType>PT_CHECKBOX</choiceType>
                         <filterable>false</filterable>
                     </org.biouno.unochoice.ChoiceParameter>
