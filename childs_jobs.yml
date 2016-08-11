@@ -1,0 +1,31 @@
+- job-template: 
+      name: 'MNTLAB-{student}-child{number}-build-job'
+      parameters:
+          - dynamic-choice:
+                name: BRANCH
+      
+      scm:
+          - git:
+                url: https://github.com/amazurenko/mntlab-jjb.git
+                branches:
+                    - ${{BRANCH}}
+                    
+      builders:
+          - shell: |
+                chmod +x ./script.sh
+                echo ${{BRANCH}}
+                ls -al
+                ./script.sh > output.txt
+                tar cfz ${{BRANCH}}_jjb_templates.tar.gz -C ./ *.yml *.ini *.txt
+      
+- project: 
+   name: myprojeict
+   student: vshulhach
+   target: build
+   number:
+       - 1
+       - 2
+       - 3
+       - 4
+   jobs:
+    - 'MNTLAB-{student}-child{number}-build-job'
