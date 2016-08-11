@@ -2,7 +2,7 @@
       name: 'MNTLAB-{student}-main-build-job-laba'
       parameters:
           - dynamic-choice:
-              name: BRANCH_NAME1
+              name: BRANCH_NAME
               script: "def list = ['master','atkachenka']"
               remote: false
               read-only: false
