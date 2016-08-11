@@ -23,12 +23,21 @@
     scm:
        - git: 
            url: 'git@github.com:amazurenko/mntlab-jjb.git'
-           credencialsId: 'c6f1a861-5b06-43eb-9f07-05eba009e9b8'
+           credencials-id: 'c6f1a861-5b06-43eb-9f07-05eba009e9b8'
            branches:
-              - '$BRANCH_NAME'
+              - ${{BRANCH_NAME}}
+           name: 'origin'
    builders:
       - shell: |
-          echo "test"
+          echo ${{BRANCH_NAME}}
+          tar cvf ${{BUILD_TAG}}.tar.gz *.yml\
+   publishers:
+      - archive:
+           artifacts: '*.tar.gz'
+           allow-empty: 'true'
+           fingerprint: true
+           default-excludes: false
+
 - project:
    name: akaravai_project
    student:
@@ -40,4 +49,5 @@
       - child4  
    jobs:
       - 'MNTLAB-{student}-{child}-build-job'
+
 
