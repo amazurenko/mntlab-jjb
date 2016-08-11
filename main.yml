@@ -1,0 +1,27 @@
+- job:
+    name: MNTLAB-usemiankou-main-build-job
+    project-type: freestyle
+    description: 'Le main job'
+    parameters:
+      - dynamic-choice:
+          name: LE_BRANCH
+          description: "Available options"
+          script: "['usemiankou', 'master']"
+          remote: false
+          read-only: false
+      - raw: 
+                xml: |
+                    <org.biouno.unochoice.ChoiceParameter plugin="uno-choice@1.4">
+                        <name>JOBS</name>
+                        <description></description>
+                        <randomName>choice-parameter-1372913575399876</randomName>
+                        <visibleItemCount>1</visibleItemCount>
+                        <script class="org.biouno.unochoice.model.GroovyScript">
+                        <script>return[&apos;ch1&apos;,&apos;ch2&apos;]
+                                </script>
+                                <fallbackScript></fallbackScript>
+                        </script>
+                        <projectName>MNTLAB-usemiankou-main-build-job</projectName>
+                        <choiceType>PT_CHECKBOX</choiceType>
+                        <filterable>false</filterable>
+                    </org.biouno.unochoice.ChoiceParameter>
