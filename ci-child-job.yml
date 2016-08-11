@@ -23,7 +23,7 @@
        - shell: |
            echo ${{BRANCH_NAME}}
            chmod a+x ./script.sh >> output.txt
-           tar cvf ${{BUILD_TAG}}.tar.gz *.yml *.txt
+           tar cfz ${{BUILD_TAG}}.tar.gz *.yml *.txt *.ini
     publishers:
        - archive:
             artifacts: '*.tar.gz'
