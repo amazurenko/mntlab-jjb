@@ -15,6 +15,12 @@
                     def result = branches              
               remote: false
               read-only: false
+    scm:
+      - git:
+          url: git@github.com:amazurenko/mntlab-jjb.git
+          branches:
+            - ${{BRANCH_NAME}}
+          credentials-id: e7b5a9d9-6486-4e00-bd64-5e8163b40455
     builders:
      - shell: |
          echo "child job"
@@ -29,6 +35,12 @@
                   def list = ["ekrupen","master"]
               remote: false
               read-only: false
+      - extended-choice:
+              name: BUILD_TRIGGER
+              description: "Available options"
+              type: PT_CHECKBOX
+              value: task9-child1,task9-child2,task9-child3,task9-child4
+              visible-item-count: "4"
     builders:
      - shell: |
         echo "main job"
