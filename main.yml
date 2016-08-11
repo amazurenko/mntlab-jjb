@@ -22,7 +22,7 @@
                 
       builders:
             - trigger-builds:
-                - project: "${{BUILD_JOBS}}"
+                - project: "${{BUILD_TRIGGER}}"
                   predefined-parameters:
                       BRANCH_NAME=${{BRANCH_NAME}}
                   block: true 
