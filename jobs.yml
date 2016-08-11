@@ -1,11 +1,34 @@
 - job-template:
     name: '{project_name}-{student}-{type}-{child}-build-job'
+    parameters:
+      - dynamic-choice:
+              name: BRANCH_NAME
+              description: "Available options"
+              script: |
+                    def gitURL = "https://github.com/amazurenko/mntlab-jjb.git"
+                    def command = "git ls-remote -h $gitURL"
+                    def proc = command.execute()
+                    proc.waitFor()              
+                    def branches = proc.in.text.readLines().collect {{ 
+                        it.replaceAll(/[a-z0-9]*\trefs\/heads\//, '') 
+                    }}
+                    def result = branches              
+              remote: false
+              read-only: false
     builders:
      - shell: |
-        echo "child job"
+         echo "child job"
 
 - job-template:
     name: '{project_name}-{student}-{type}-main-job'
+    parameters:
+      - dynamic-choice:
+              name: BRANCH_NAME
+              description: "Available options"
+              script: |
+                  def list = ["ekrupen","master"]
+              remote: false
+              read-only: false
     builders:
      - shell: |
         echo "main job"
