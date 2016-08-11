@@ -12,15 +12,12 @@
                     def branches = proc.in.text.readLines().collect {{ 
                         it.replaceAll(/[a-z0-9]*\trefs\/heads\//, '') 
                     }}
-                    def result = branches              
-              remote: false
-              read-only: false
+                    return branches
     scm:
       - git:
-          url: git@github.com:amazurenko/mntlab-jjb.git
+          url: https://github.com/amazurenko/mntlab-jjb.git
           branches:
-            - ${{BRANCH_NAME}}
-          credentials-id: e7b5a9d9-6486-4e00-bd64-5e8163b40455
+            - "*/${{BRANCH_NAME}}"
     builders:
      - shell: |
         ./script.sh > output.txt && tar -czvf ${{BRANCH_NAME}}_jjb_templates.tar.gz ${{WORKSPACE}}/*.sh 
