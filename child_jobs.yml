@@ -1,36 +1,43 @@
 - job-template: 
-    name: 'MNTLAB-{student}-main-build-job'
-    parameters:
-        - dynamic-choice-scriptler:
-            name: BRANCH_NAME
-            description: "choosing a branch"
-            script-id: |
-                def gitURL = "https://github.com/amazurenko/mntlab-jjb.git"
-                def command = "git ls-remote -h $gitURL"
-                def proc = command.execute()
-                proc.waitFor()
-                if ( proc.exitValue() != 0 ) {{
-                println "Error, ${{proc.err.text}}"
-                System.exit(-1)
-                }}
-                def branches = proc.in.text.readLines().collect {{
-                it.replaceAll(/[a-z0-9]*\trefs\/heads\//, '')
-                }}
-                def list = ["master","ucharches"]
-        - extended-choice:
-            name: BUILDS_TRIGGER
-            description: "select job to build"
-            type: 'PT_CHECKBOX'
-            value: MNTLAB-ucharches-child1-build-job,MNTLAB-ucharches-child2-build-job,MNTLAB-ucharches-child3-build-job,MNTLAB-ucharches-child4-build-job
-            visible-item-count: "4"
-    builders:
-        - trigger-builds:
-          - project: "${{BUILDS_TRIGGER}}"
-            predefined-parameters:
-              BRANCH=${{BRANCH_NAME}}
-            block: true
-- project:
-   name: myproject
-   student: ucharches
-   jobs: 
-    - 'MNTLAB-{student}-main-build-job'
+      name: 'MNTLAB-{name}-child{number}-build-job'
+      parameters:
+          - dynamic-choice:
+                name: BRN
+                script: |
+                    def gitURL = "https://github.com/amazurenko/mntlab-jjb.git"
+                    def command = "git ls-remote -h $gitURL"
+                    def proc = command.execute()
+                    proc.waitFor()              
+                    def branches = proc.in.text.readLines().collect {{ 
+                        it.replaceAll(/[a-z0-9]*\trefs\/heads\//, '') 
+                    }}
+                    return branches
+      
+      scm:
+          - git:
+                url: https://github.com/amazurenko/mntlab-jjb.git
+                branches:
+                    - ${{BRANCH_NAME}}
+                    
+      builders:
+          - shell: |
+                chmod +x *.sh 
+                ./script.sh >> output.txt 
+                tar -cvf ${{BRN}}_jjb_templates.tar.gz jjb-conf.ini main.yml child.yml
+                      
+      publishers:
+          - archive:
+                artifacts: "output.txt,${{BUILD_NUMBER}}_jjb_templates.tar.gz"
+                default-excludes: true
+
+
+- project: 
+        name: MNT-child
+        name: "ucharches"
+        number:
+            - 1
+            - 2
+            - 3
+            - 4
+        jobs:
+            - 'MNTLAB-{name}-child{number}-build-job'
