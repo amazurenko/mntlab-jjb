@@ -1,0 +1,10 @@
+- job-template:
+    name: 'MNTLAB-{student}-{job-id}-build-job'
+    description: '{description}'
+    concurrent: true
+    node: '{node}'
+    logrotate:
+      artifactDaysToKeep: -1
+      artifactNumToKeep: -1
+      daysToKeep: 30
+      numToKeep: 50
