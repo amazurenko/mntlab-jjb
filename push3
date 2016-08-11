@@ -1,0 +1,39 @@
+Now I have successed in running jobs with parameters {BRANCH_NAME} in gui of my jenkins. Now I will try to make yml-files.
+Console output:
+Console Output
+
+Started by upstream project "MNTLAB-vshulhach-main-build-job" build number 13
+originally caused by:
+ Started by user vitali
+Building on master in workspace /opt/jenkins_home/jobs/MNTLAB-vshulhach-child1-build-job/workspace
+Cloning the remote Git repository
+Cloning repository git@github.com:amazurenko/mntlab-jjb.git
+ > git init /opt/jenkins_home/jobs/MNTLAB-vshulhach-child1-build-job/workspace # timeout=10
+Fetching upstream changes from git@github.com:amazurenko/mntlab-jjb.git
+ > git --version # timeout=10
+using GIT_SSH to set credentials 
+ > git fetch --tags --progress git@github.com:amazurenko/mntlab-jjb.git +refs/heads/*:refs/remotes/origin/*
+ > git config remote.origin.url git@github.com:amazurenko/mntlab-jjb.git # timeout=10
+ > git config --add remote.origin.fetch +refs/heads/*:refs/remotes/origin/* # timeout=10
+ > git config remote.origin.url git@github.com:amazurenko/mntlab-jjb.git # timeout=10
+Fetching upstream changes from git@github.com:amazurenko/mntlab-jjb.git
+using GIT_SSH to set credentials 
+ > git fetch --tags --progress git@github.com:amazurenko/mntlab-jjb.git +refs/heads/*:refs/remotes/origin/*
+ > git rev-parse refs/remotes/origin/vshulhach^{commit} # timeout=10
+ > git rev-parse refs/remotes/origin/origin/vshulhach^{commit} # timeout=10
+Checking out Revision c51c02ddd1399899ba696f3f0ae9d4062de6be4e (refs/remotes/origin/vshulhach)
+ > git config core.sparsecheckout # timeout=10
+ > git checkout -f c51c02ddd1399899ba696f3f0ae9d4062de6be4e
+First time build. Skipping changelog.
+[workspace] $ /bin/sh -xe /tmp/hudson2169479800051304700.sh
++ echo vshulhach
+vshulhach
++ ls -al
+total 20
+drwxr-xr-x 3 jenkins jenkins 4096 Aug 11 15:41 .
+drwxr-xr-x 4 jenkins jenkins 4096 Aug 11 15:41 ..
+-rw-r--r-- 1 jenkins jenkins   11 Aug 11 15:41 1
+drwxr-xr-x 8 jenkins jenkins 4096 Aug 11 15:41 .git
+-rw-r--r-- 1 jenkins jenkins   63 Aug 11 15:41 script.sh
+Finished: SUCCESS
+
