@@ -1,0 +1,8 @@
+- job-template:
+        name: 'MNTLAB-{student}-main-build-job'
+        
+- project:
+    name: test1
+    student: akhurhin
+    jobs:
+        - 'MNTLAB-{student}-main-build-job'
