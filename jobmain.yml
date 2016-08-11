@@ -1,9 +1,10 @@
 - job-template: 
       name: 'MNTLAB-{student}-main-build-job'
+      node: master
       parameters:
           - dynamic-choice:
               name: BRANCH_NAME
-              script: "def list = ['master','ylikhachou']"
+              script: "['master','ylikhachou']"
               remote: false
               read-only: false
           - extended-choice:
