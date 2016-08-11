@@ -1,0 +1,46 @@
+---
+
+- job-template: 
+      name: 'MNTLAB-{stud}-main-{target}-job'
+      parameters:
+          - dynamic-choice:
+                name: BRANCH_NAME
+                script: |
+                    def list = ["ymuski","master"]
+          - raw: 
+                xml: |
+                    <org.biouno.unochoice.ChoiceParameter plugin="uno-choice@1.4">
+                        <name>BUILDS_TRIGGER</name>
+                        <description></description>
+                        <randomName>BUILDS_TRIGGER</randomName>
+                        <visibleItemCount>1</visibleItemCount>
+                        <script class="org.biouno.unochoice.model.GroovyScript">
+                        <script>import hudson.model.*
+                                def jobs = []
+                                hudson.model.Hudson.instance.items.findAll{{job -&gt; job}}.each {{
+                                job -&gt;
+                                if(job.name.startsWith(&quot;MNTLAB-mcharopkin-child&quot;)) jobs &lt;&lt; job.name
+                                }}
+                                return jobs</script>
+                                <fallbackScript></fallbackScript>
+                        </script>
+                        <projectName>MNTLAB-mcharopkin-main-build-job</projectName>
+                        <choiceType>PT_CHECKBOX</choiceType>
+                        <filterable>false</filterable>
+                    </org.biouno.unochoice.ChoiceParameter>
+
+                
+      builders:
+            - trigger-builds:
+                - project: "${{BUILD_JOBS}}"
+                  predefined-parameters:
+                      BRANCH_NAME=${{BRANCH_NAME}}
+                  block: true 
+
+
+- project: 
+        name: MNT-parent
+        stud: "mcharopkin"
+        target: build
+        jobs:
+            - 'MNTLAB-{stud}-main-{target}-job'
