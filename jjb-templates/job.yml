@@ -8,27 +8,13 @@
                 script: "['akhurhin', 'master']"
 
 
-          - raw:
-                xml: |
-                    <org.biouno.unochoice.ChoiceParameter plugin="uno-choice@1.4">
-                        <name>NEXT_JOB</name>
-                        <description></description>
-                        <randomName>choice-parameter-5545345675645</randomName>
-                        <visibleItemCount>4</visibleItemCount>
-                        <script class="org.biouno.unochoice.model.GroovyScript">
-                        <script>import hudson.model.*
-                                def jobs = []
-                                hudson.model.Hudson.instance.items.findAll{{job -&gt; job}}.each {{
-                                job -&gt;
-                                if(job.name.startsWith(&quot;MNTLAB-akhurhin-child&quot;)) jobs &lt;&lt; job.name
-                                }}
-                                return jobs</script>
-                                <fallbackScript></fallbackScript>
-                        </script>
-                        <projectName>MNTLAB-akhurhin-test-build-job</projectName>
-                        <choiceType>PT_CHECKBOX</choiceType>
-                        <filterable>false</filterable>
-                    </org.biouno.unochoice.ChoiceParameter>
+          - extended-choice:
+                name: NEXT_JOB
+                description: "Child jobs"
+                type: checkbox
+                value: "MNTLAB-akhurhin-child1-build-job,MNTLAB-akhurhin-child2-build-job,MNTLAB-akhurhin-child3-build-job,MNTLAB-akhurhin-child4-build-job"
+                visible-items: 4
+                multi-select-delimiter: ','
 
       builders:
             - trigger-builds:

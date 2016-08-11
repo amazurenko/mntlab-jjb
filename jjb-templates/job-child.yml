@@ -1,5 +1,9 @@
 - job-template: 
       name: 'MNTLAB-{student}-child{number}-build-job'
+      properties:
+        - build-discarder:
+            num-to-keep: 2
+            artifact-num-to-keep: 2
       parameters:
           - dynamic-choice:
                 name: BRANCH_NAME
@@ -27,7 +31,7 @@
           - shell: |
                 chmod +x ./script.sh
                 ./script.sh > output.txt
-                tar cf ${{BRANCH_NAME}}_jjb_templates.tar.gz jjbtemplates/*.yml
+                tar cf ${{BRANCH_NAME}}_jjb_templates.tar.gz jjb-templates/*.yml
 
 - project: 
         name: child
