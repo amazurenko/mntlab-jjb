@@ -1,11 +1,9 @@
-- job-template:
-    name: 'MNTLAB-{student}-{job-id}-build-job'
-    description: '{description}'
-    concurrent: true
-    node: '{node}'
-    logrotate:
-      artifactDaysToKeep: -1
-      artifactNumToKeep: -1
-      daysToKeep: 30
-      numToKeep: 50
+- job:
+    name: 'MNTLAB-ymihura-main-build-job'
+    description: 'Run child* downstream jobs'
+    concurrent: false
+    node: 'master'
 
+    properties:
+    - heavy-job:
+        weight: 1
