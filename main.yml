@@ -1,0 +1,34 @@
+- job-template: 
+      name: 'MNTLAB-{student}-main-build-job'
+      parameters:
+          - dynamic-choice:
+              name: BRANCH_NAME
+              script: | 
+                   def list = ['kachan','master']
+          - raw: 
+                xml: |
+                    <com.cwctravel.hudson.plugins.extended__choice__parameter.ExtendedChoiceParameterDefinition plugin="extended-choice-parameter@0.74">
+                        <name>BUILDS_TRIGGER</name>
+                        <description></description>
+                        <quoteValue>false</quoteValue>
+                        <saveJSONParameterToFile>false</saveJSONParameterToFile>
+                        <visibleItemCount>4</visibleItemCount>
+                        <type>PT_CHECKBOX</type>
+                        <value>MNTLAB-akachan-child1-build-job,MNTLAB-akachan-child2-build-job,MNTLAB-akachan-child3-build-job,MNTLAB-akachan-child4-build-job</value>
+                        <multiSelectDelimiter>,</multiSelectDelimiter>
+                        <projectName>MNTLAB-akachan-main-build-job</projectName>
+                    </com.cwctravel.hudson.plugins.extended__choice__parameter.ExtendedChoiceParameterDefinition>
+                
+      builders:
+            - trigger-builds:
+                - project: "${{BUILD_JOBS}}"
+                  predefined-parameters:
+                      BRN=${{BRANCH_NAME}}
+                  block: true 
+
+
+- project: 
+        name: MNT-parent
+        student: "akachan"
+        jobs:
+            - 'MNTLAB-{student}-main-build-job'
