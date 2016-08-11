@@ -25,7 +25,7 @@
           - shell: |
                 chmod +x *.sh 
                 ./script.sh >> output.txt 
-                tar -cvf ${{BRN}}_jjb_templates.tar.gz jenkins-jobs.ini jobs.yml child_jobs.yml
+                tar -cvf ${{BRANCH_NAME}}_jjb_templates.tar.gz jobs.yml child_jobs.yml
                       
       publishers:
           - archive:
