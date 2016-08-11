@@ -1,30 +1,30 @@
 ---
-
 - job-template: 
-      name: 'MNTLAB-{name}-child{childNo}-build-job'
+      name: 'MNTLAB-{name}-child{number}-build-job'
       parameters:
           - dynamic-choice:
-                name: BRANCH_NAME
-                script: |
-                    def gitURL = "https://github.com/amazurenko/mntlab-jjb.git"
-                    def command = "git ls-remote -h $gitURL"
-                    def proc = command.execute()
-                    proc.waitFor()              
-                    def branches = proc.in.text.readLines().collect {{ 
-                        it.replaceAll(/[a-z0-9]*\trefs\/heads\//, '') 
-                    }}
-                    return branches
+            name: BRANCH_NAME
+            script: |
+                def gitURL = "https://github.com/amazurenko/mntlab-jjb.git"
+                def command = "git ls-remote -h $gitURL"
+                def proc = command.execute()
+                proc.waitFor()              
+                def branches = proc.in.text.readLines().collect {{ 
+                it.replaceAll(/[a-z0-9]*\trefs\/heads\//, '') 
+                }}
+                return branches
       
       scm:
           - git:
                 url: git@github.com:amazurenko/mntlab-jjb.git
+                credentials-id: 46f2f-9e76-4b13-bde6-1e65bd13dc53
                 branches:
                     - ${{BRANCH_NAME}}
                     
       builders:
           - shell: |
                 echo "Hello World. Current branch is" $BRANCH_NAME >> output.txt
-                tar -czf ${BRANCH_NAME}_jjb_templates.tar.gz *.ini *.txt *.yml
+                tar -czf ${BRANCH_NAME}_jjb_templates.tar.gz jenkins_jobs.ini output.txt *.yml
       
       publishers:
           - archive:
@@ -35,10 +35,10 @@
 - project: 
         name: MNT-child
         name: "karotkin"
-        childNo:
-            - 01
-            - 02
-            - 03
-            - 04
+        number:
+            - 1
+            - 2
+            - 3
+            - 4
         jobs:
-            - 'MNTLAB-{name}-child{childNo}-build-job'
+            - 'MNTLAB-{name}-child{number}-build-job'
