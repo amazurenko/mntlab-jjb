@@ -1,5 +1,5 @@
 - job-template: 
-      name: 'MNTLAB-{name}-main-build-job'
+      name: 'MNTLAB-{student}-main-build-job'
       parameters:
           - dynamic-choice:
                 name: BRANCH_NAME
@@ -15,7 +15,7 @@
 
 - project: 
         name: MNT-parent
-        name: "ucharches"
+        student: "ucharches"
         target: build
         jobs:
-            - 'MNTLAB-{name}-main-build-job'
+            - 'MNTLAB-{student}-main-build-job'
