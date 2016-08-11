@@ -2,28 +2,28 @@
 
 - job-template:
     name: 'MNTLAB-{student}-{child}-build-job'
-    properties:
-         - dynamic-choice:
-                name: BRANCH_NAME
-                script: |
-                    def gitURL = "https://github.com/amazurenko/mntlab-jjb.git"
-                    def command = "git ls-remote -h $gitURL"
-                    def proc = command.execute()
-                    proc.waitFor()              
-                    def branches = proc.in.text.readLines().collect {{ 
-                        it.replaceAll(/[a-z0-9]*\trefs\/heads\//, '') 
-                    }}
-                    return branches
+    parameters:       
+        - dynamic-choice:
+                  name: BRANCH_NAME
+                  script: |
+                      def gitURL = "https://github.com/amazurenko/mntlab-jjb.git"
+                      def command = "git ls-remote -h $gitURL"
+                      def proc = command.execute()
+                      proc.waitFor()              
+                      def branches = proc.in.text.readLines().collect {{ 
+                          it.replaceAll(/[a-z0-9]*\trefs\/heads\//, '') 
+                      }}
+                      return branches
     scm:
        - git: 
            url: 'git@github.com:amazurenko/mntlab-jjb.git'
-           credencials-id: 'c6f1a861-5b06-43eb-9f07-05eba009e9b8'
            branches:
               - ${{BRANCH_NAME}}
     builders:
        - shell: |
            echo ${{BRANCH_NAME}}
-           tar cvf ${{BUILD_TAG}}.tar.gz *.yml
+           chmod a+x ./script.sh >> output.txt
+           tar cvf ${{BUILD_TAG}}.tar.gz *.yml *.txt
     publishers:
        - archive:
             artifacts: '*.tar.gz'

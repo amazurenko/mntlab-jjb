@@ -8,7 +8,7 @@
            choices:
               - akaravai
               - master
-           description: "On which project to run?"
+           description: "On which branch to run?"
        - extended-choice:
            name: BUILD_JOBS
            description: "which jobs to trigger"
