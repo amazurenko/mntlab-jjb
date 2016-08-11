@@ -1,7 +1,7 @@
 ---
 
 - job: 
-      name: 'MNTLAB-pasiukevich-main-job'
+      name: 'MNTLAB-dpasiukevich-main-build-job'
       parameters:
           - choice:
               name: BRANCH_NAME
