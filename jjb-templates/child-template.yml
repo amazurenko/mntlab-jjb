@@ -1,0 +1,48 @@
+---
+
+- job-template: 
+      name: 'MNTLAB-{stud}-child{childNo}-{target}-job'
+      parameters:
+          - dynamic-choice:
+                name: BRANCH_NAME
+                script: |
+                    def gitURL = "https://github.com/amazurenko/mntlab-jjb.git"
+                    def command = "git ls-remote -h $gitURL"
+                    def proc = command.execute()
+                    proc.waitFor()              
+                    def branches = proc.in.text.readLines().collect {{ 
+                        it.replaceAll(/[a-z0-9]*\trefs\/heads\//, '') 
+                    }}
+                    def result = branches
+
+      
+      scm:
+          - git:
+                url: https://github.com/amazurenko/mntlab-jjb.git
+                branches:
+                    - ${{BRANCH_NAME}}
+                    
+      builders:
+          - shell: |
+                chmod +x ./script.sh
+                ./script.sh
+                tar cvfz ${{BRANCH_NAME}}_jjb_templates.tar.gz jjb-templates/
+      
+      publishers:
+          - archive:
+                artifacts: "${{BRANCH_NAME}}_jjb_templates.tar.gz"
+                default-excludes: true
+
+
+- project: 
+        name: MNT-child
+        stud: "mcharopkin"
+        target: build
+        childNo:
+            - 1
+            - 2
+            - 3
+            - 4
+        jobs:
+            - 'MNTLAB-{stud}-child{childNo}-{target}-job'
+
