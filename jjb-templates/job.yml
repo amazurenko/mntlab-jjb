@@ -1,8 +1,13 @@
 - job-template:
-        name: 'MNTLAB-{student}-main-build-job'
-        
+      name: 'MNTLAB-{student}-test-build-job'
+      parameters:
+          - dynamic-choice:
+                name: BRANCH_NAME
+                script: "['akhurhin', 'master']"
+
 - project:
-    name: test1
-    student: akhurhin
-    jobs:
-        - 'MNTLAB-{student}-main-build-job'
+        name: test1
+        student: akhurhin
+        jobs:
+            - 'MNTLAB-{student}-test-build-job'
+
