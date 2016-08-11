@@ -29,7 +29,7 @@
         mkdir artifacts
         tar -zcvf artifacts/${{BRANCH_NAME}}_jjb_templates.tar.gz --exclude=./artifacts .
         
-        publishers:
-        - archive:
-           artifacts: 'artifacts/*.tar.gz'
+    publishers:
+    - archive:
+        artifacts: 'artifacts/*.tar.gz'
         
