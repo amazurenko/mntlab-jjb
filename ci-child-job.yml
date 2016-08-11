@@ -20,7 +20,6 @@
            credencials-id: 'c6f1a861-5b06-43eb-9f07-05eba009e9b8'
            branches:
               - ${{BRANCH_NAME}}
-           name: 'origin'
     builders:
        - shell: |
            echo ${{BRANCH_NAME}}
