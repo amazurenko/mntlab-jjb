@@ -1,0 +1,17 @@
+- project:
+    name: child-build-jobs
+
+    student: ymihura
+    node: master
+    description: |
+      A set of child jobs
+
+    jobs:
+      - 'MNTLAB-{student}-{job-id}-build-job':
+          job-id: 'child1'
+      - 'MNTLAB-{student}-{job-id}-build-job':
+          job-id: 'child2'
+      - 'MNTLAB-{student}-{job-id}-build-job':
+          job-id: 'child3'
+      - 'MNTLAB-{student}-{job-id}-build-job':
+          job-id: 'child4'
