@@ -2,6 +2,7 @@
 
 - job-template: 
       name: 'MNTLAB-{name}-child{number}-build-job'
+      node: master
       parameters:
           - dynamic-choice:
                 name: BRANCH_NAME
