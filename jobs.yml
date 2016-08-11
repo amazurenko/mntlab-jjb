@@ -2,35 +2,26 @@
       name: 'MNTLAB-{student}-main-build-job'
       parameters:
           - dynamic-choice:
-                name: BRANCH_NAME
-                script: |
-                    def list = ["ucharches","master"]
-
-          - raw: 
-                xml: |
-                    <com.cwctravel.hudson.plugins.extended__choice__parameter.ExtendedChoiceParameterDefinition plugin="extended-choice-parameter@0.74">
-                        <name>BUILDS_TRIGGER</name>
-                        <description></description>
-                        <quoteValue>false</quoteValue>
-                        <saveJSONParameterToFile>false</saveJSONParameterToFile>
-                        <visibleItemCount>4</visibleItemCount>
-                        <type>PT_CHECKBOX</type>
-                        <value>MNTLAB-ucharches-child1-build-job,MNTLAB-ucharches-child2-build-job,MNTLAB-ucharches-child3-build-job,MNTLAB-ucahrches-child4-build-job</value>
-                        <multiSelectDelimiter>,</multiSelectDelimiter>
-                        <projectName>MNTLAB-ucahrches-main-build-job</projectName>
-                    </com.cwctravel.hudson.plugins.extended__choice__parameter.ExtendedChoiceParameterDefinition>
-
+              name: BRANCH_NAME
+              script: | 
+                   def list = ['ucharches','master']
+          - extended-choice:
+              name: BUILDS_TRIGGER
+              description: "Available options"
+              type: checkbox
+              value: "MNTLAB-ucharches-child1-build-job,MNTLAB-ucharches-child2-build-job,MNTLAB-ucharches-child3-build-job,MNTLAB-ucharches-child4-build-job"
+              visible-items: 4
+              multi-select-delimiter: ','                
       builders:
-            - trigger-builds:
-                - project: "${{BUILD_JOBS}}"
-                  predefined-parameters:
-                      BRANCH_NAME=${{BRANCH_NAME}}
-                  block: true 
+          - trigger-builds:
+              - project: "${{BUILDS_TRIGGER}}"
+                predefined-parameters:
+                    BRANCH_NAME=${{BRANCH_NAME}}
+                block: true 
 
 
 - project: 
         name: MNT-parent
         student: "ucharches"
-        target: build
         jobs:
             - 'MNTLAB-{student}-main-build-job'
