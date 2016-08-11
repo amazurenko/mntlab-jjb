@@ -1,17 +1,35 @@
-- job:
-    name: 'MNTLAB-atkachenka-main-build-job-laba'
-    project-type: freestyle
-    parameters:
-      - dynamic-choice:
-          name: BRANCH_NAME
-          script: "def list = ['master','atkachenka']"
-          remote: false
-          read-only: false
-      - extended-choice:
-          name: BUILDS_TRIGGER
-          type: 'PT_CHECKBOX'
-          value: MNTLAB-atkachenka-child1-build-job,MNTLAB-atkachenka-child2-build-job,MNTLAB-atkachenka-child3-build-job,MNTLAB-atkachenka-child4-build-job
-          visible-item-count: 4
-          multiSelectDelimiter: ","
-          quoteValue: false
-          saveJSONParameterToFile: false
+- job-template: 
+      name: 'MNTLAB-{student}-main-build-job-laba'
+      parameters:
+          - dynamic-choice:
+              name: BRANCH_NAME1
+              script: "def list = ['master','atkachenka']"
+              remote: false
+              read-only: false
+          - raw: 
+                xml: |
+                    <com.cwctravel.hudson.plugins.extended__choice__parameter.ExtendedChoiceParameterDefinition plugin="extended-choice-parameter@0.74">
+                        <name>BUILDS_TRIGGER</name>
+                        <description></description>
+                        <quoteValue>false</quoteValue>
+                        <saveJSONParameterToFile>false</saveJSONParameterToFile>
+                        <visibleItemCount>4</visibleItemCount>
+                        <type>PT_CHECKBOX</type>
+                        <value>MNTLAB-atkachenka-child1-build-job,MNTLAB-atkachenka-child2-build-job,MNTLAB-atkachenka-child3-build-job,MNTLAB-atkachenka-child4-build-job</value>
+                        <multiSelectDelimiter>,</multiSelectDelimiter>
+                        <projectName>MNTLAB-atkachenka-main-build-job</projectName>
+                    </com.cwctravel.hudson.plugins.extended__choice__parameter.ExtendedChoiceParameterDefinition>
+                
+      builders:
+            - trigger-builds:
+                - project: "${{BUILD_JOBS}}"
+                  predefined-parameters:
+                      BRANCH_NAME=${{BRANCH_NAME}}
+                  block: true 
+
+
+- project: 
+        name: MNT-parent
+        student: "atkachenka"
+        jobs:
+            - 'MNTLAB-{student}-main-build-job-laba'
