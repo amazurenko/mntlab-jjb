@@ -1,0 +1,26 @@
+- job-template:
+   parameters:
+     - choice:
+         name: BRANCH_NAME
+         choices:
+            - akaravai
+            - master
+         description: "On which project to run?"
+
+   name: 'MNTLAB-{student}-main-build-job'
+   scm:
+       - git: 
+           url: 'git@github.com:amazurenko/mntlab-jjb.git'
+           credencialsId: 'c6f1a861-5b06-43eb-9f07-05eba009e9b8'
+           branches:
+              - '$BRANCH_NAME'
+   builders:
+      - shell: |
+          echo "test"
+- project:
+   name: akaravai_project
+   student:
+      - akaravai
+   jobs:
+      - 'MNTLAB-{student}-main-build-job'
+
