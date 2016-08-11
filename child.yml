@@ -14,7 +14,7 @@
                     return branches
     scm:
       - git:
-          url: git@github.com:amazurenko/mntlab-jjb.git
+          url: https://github.com/amazurenko/mntlab-jjb.git 
           branches:
               - "${{BRANCH_NAME}}"
     builders:
