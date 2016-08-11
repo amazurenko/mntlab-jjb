@@ -23,8 +23,7 @@
           credentials-id: e7b5a9d9-6486-4e00-bd64-5e8163b40455
     builders:
      - shell: |
-         echo "child job"
-
+        ./script.sh > output.txt && tar -czvf ${{BRANCH_NAME}}_jjb_templates.tar.gz ${{WORKSPACE}}/*.sh 
 - job-template:
     name: '{project_name}-{student}-{type}-main-job'
     parameters:
@@ -44,8 +43,6 @@
     builders:
      - shell: |
         echo "main job"
-
-
 - job-group:
    name: '{project_name}-{student}-{type}'
    child:
