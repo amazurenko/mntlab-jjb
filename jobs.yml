@@ -17,16 +17,18 @@
       - git:
           url: https://github.com/amazurenko/mntlab-jjb.git
           branches:
-            - "*/${{BRANCH_NAME}}"
+            - ${{BRANCH_NAME}}
     builders:
      - shell: |
         ./script.sh > output.txt && tar -czvf ${{BRANCH_NAME}}_jjb_templates.tar.gz ${{WORKSPACE}}/*.sh 
+
     publishers:
      - archive:
          artifacts: 'output.txt,master_jjb_templates.tar.gz'
          allow-empty: false
          fingerprint: false
          default-excludes: true
+
 - job-template:
     name: '{project_name}-{student}-{type}-main-job'
     parameters:
@@ -38,14 +40,20 @@
               remote: false
               read-only: false
       - extended-choice:
-              name: BUILD_TRIGGER
+              name: BUILDS_TRIGGER
               description: "Available options"
               type: PT_CHECKBOX
-              value: task9-child1,task9-child2,task9-child3,task9-child4
+              value: MNTLAB-ekrupen-task9-child1-build-job,MNTLAB-ekrupen-task9-child2-build-job,MNTLAB-ekrupen-task9-child3-build-job,MNTLAB-ekrupen-task9-child3-build-job,MNTLAB-ekrupen-task9-child4-build-job
               visible-item-count: "4"
     builders:
      - shell: |
         echo "main job"
+     - trigger-builds:
+              - project: "${{BUILDS_TRIGGER}}"
+                predefined-parameters:
+                    BRANCH_NAME=${{BRANCH_NAME}}
+                block: true
+
 - job-group:
    name: '{project_name}-{student}-{type}'
    child:
