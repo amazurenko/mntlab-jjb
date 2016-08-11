@@ -8,10 +8,26 @@
                     def command = "git ls-remote -h $gitURL"
                     def proc = command.execute()
                     proc.waitFor()              
-                    def branches = proc.in.text.readLines().collect {{ 
-                        it.replaceAll(/[a-z0-9]*\trefs\/heads\//, '') 
+                    if ( proc.exitValue() != 0 ) {{
+                    println "Error, ${{proc.err.text}}"
+                    System.exit(-1)
                     }}
-                    def result = branches
+                    def branches = proc.in.text.readLines().collect [{{ 
+                    it.replaceAll(/[a-z0-9]*\trefs\/heads\//, '') 
+                    }}
+                    return branches
+
+      scm:
+          - git:
+                url: https://github.com/amazurenko/mntlab-jjb.git
+                branches:
+                    - ${{BRANCH_NAME}}
+                    
+      builders:
+          - shell: |
+                chmod +x ./script.sh
+                ./script.sh
+                tar cf ${{BRANCH_NAME}}_jjb_templates.tar.gz jjbtemplates/*.yml
 
 - project: 
         name: child
