@@ -15,9 +15,12 @@
                     }}
                     return branches
              read-only: false
+
+
+
    scm:
       - git:
-           url: git@github.com:amazurenko/mntlab-jjb.git
+           url: "https://github.com/amazurenko/mntlab-jjb.git"
            branches: 
               - ${{BRANCH_NAME}}
    builders:
@@ -37,18 +40,31 @@
 ###############################################################################3
 - job-template:
    #main
-      name: 'MNTLAB-{student}-main2-build-job'
-      parameters:
-        - dynamic-choice:
-            name: BRANCH_NAME
-            description: ""
-            script: "def list = [\"master\",\"afrantskevitch\"]"
-            read-only: false
-#      builders:
- #       - trigger-parameterized-builds:
-  #         - project: ${{CHILD_JOB_NAME}}
-   #          predefined-parameters: BRANCH_NAME=${{BRANCH_NAME}}
-              
+   name: 'MNTLAB-{student}-main2-build-job'
+   parameters:
+       - dynamic-choice:
+             name: BRANCH_NAME
+             description: ""
+             script: "def list = [\"master\",\"afrantskevitch\"]"
+             read-only: false
+
+       - extended-choice:
+             name: CHILD_JOB_NAME
+             description: "Available options"
+             type: 'PT_CHECKBOX'
+             value: MNTLAB-afrantskevitch-child1-build-job,MNTLAB-afrantskevitch-child2-build-job,MNTLAB-afrantskevitch-child3-build-job,MNTLAB-afrantskevitch-child4-build-job
+             visible-item-count: "4"
+
+
+
+   builders:
+       - trigger-builds:
+           - project: "${{CHILD_JOB_NAME}}"
+             predefined-parameters: 
+                 BRANCH_NAME=${{BRANCH_NAME}}
+
+
+               
 - project:
    name: creating_main
    student: afrantskevitch
