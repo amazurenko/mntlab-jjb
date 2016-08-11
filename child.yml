@@ -1,12 +1,33 @@
-- job:  
-    name: MNTLAB-pasiukevich-child1-build-job
+- job:
+    name: "MNTLAB-pasiukevich-child2-build-job"
+    parameters:
+          - dynamic-choice:
+                name: BRANCH_NAME
+                script: |
+                  def gitURL = "https://github.com/amazurenko/mntlab-jjb.git"
+                  def command = "git ls-remote -h $gitURL"
+
+                  def proc = command.execute()
+                  proc.waitFor()
+
+                  if ( proc.exitValue() != 0 ) {
+                    println "Error, ${proc.err.text}"
+                    System.exit(-1)
+                  }
+
+                  def branches = proc.in.text.readLines().collect {
+                  it.replaceAll(/[a-z0-9]*\trefs\/heads\//, '')
+                  }
+
+                  return branches 
     scm:
       - git:
           url: git@github.com:amazurenko/mntlab-jjb.git
-          credentials-id: abe4ceb3-9582-43a5-8f5e-684568591ce3
-          branches: ${BRANCH_NAME#*/}
+          credentials-id: pasiukevich
+          branches:
+              - ${{BRANCH_NAME}}
     builders:
-      - shell: "bash script.sh > output.txt tar -cvzf ${BRANCH_NAME#*/}_jjb_templates.tar.gz *.yml output.txt"
+      - shell: "bash script.sh > output.txt tar -cvzf ${BRANCH_NAME}_jjb_templates.tar.gz *.yml output.txt"
     publishers:
       - archive:
           artifacts: '*.tar.gz'
