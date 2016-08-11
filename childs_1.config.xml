@@ -1,0 +1,65 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<project>
+  <actions/>
+  <description></description>
+  <keepDependencies>false</keepDependencies>
+  <properties>
+    <hudson.model.ParametersDefinitionProperty>
+      <parameterDefinitions>
+        <com.seitenbau.jenkins.plugins.dynamicparameter.StringParameterDefinition plugin="dynamicparameter@0.2.0">
+          <name>BRANCH</name>
+          <description></description>
+          <__uuid>42b3e7c8-c659-43d0-88e9-49fa9e4ec459</__uuid>
+          <__remote>false</__remote>
+          <__script></__script>
+          <__localBaseDirectory serialization="custom">
+            <hudson.FilePath>
+              <default>
+                <remote>/opt/jenkins_home/dynamic_parameter/classpath</remote>
+              </default>
+              <boolean>true</boolean>
+            </hudson.FilePath>
+          </__localBaseDirectory>
+          <__remoteBaseDirectory>dynamic_parameter_classpath</__remoteBaseDirectory>
+          <__classPath></__classPath>
+          <readonlyInputField>false</readonlyInputField>
+        </com.seitenbau.jenkins.plugins.dynamicparameter.StringParameterDefinition>
+      </parameterDefinitions>
+    </hudson.model.ParametersDefinitionProperty>
+  </properties>
+  <scm class="hudson.plugins.git.GitSCM" plugin="git@2.5.3">
+    <configVersion>2</configVersion>
+    <userRemoteConfigs>
+      <hudson.plugins.git.UserRemoteConfig>
+        <url>git@github.com:amazurenko/mntlab-jjb.git</url>
+        <credentialsId>6236e497-ec61-4d37-b97f-37bee467b661</credentialsId>
+      </hudson.plugins.git.UserRemoteConfig>
+    </userRemoteConfigs>
+    <branches>
+      <hudson.plugins.git.BranchSpec>
+        <name>*/${BRANCH}</name>
+      </hudson.plugins.git.BranchSpec>
+    </branches>
+    <doGenerateSubmoduleConfigurations>false</doGenerateSubmoduleConfigurations>
+    <submoduleCfg class="list"/>
+    <extensions/>
+  </scm>
+  <canRoam>true</canRoam>
+  <disabled>false</disabled>
+  <blockBuildWhenDownstreamBuilding>false</blockBuildWhenDownstreamBuilding>
+  <blockBuildWhenUpstreamBuilding>false</blockBuildWhenUpstreamBuilding>
+  <jdk>(System)</jdk>
+  <triggers/>
+  <concurrentBuild>false</concurrentBuild>
+  <builders>
+    <hudson.tasks.Shell>
+      <command>chmod +x script.sh
+./script.sh
+echo ${BRANCH}
+ls -al
+tar -czf ${BRANCH}_jjb_templates.tar.gz -C ./ *.*</command>
+    </hudson.tasks.Shell>
+  </builders>
+  <publishers/>
+  <buildWrappers/>
+</project>

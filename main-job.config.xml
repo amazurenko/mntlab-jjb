@@ -1,0 +1,84 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<project>
+  <actions/>
+  <description>main job</description>
+  <keepDependencies>false</keepDependencies>
+  <properties>
+    <hudson.model.ParametersDefinitionProperty>
+      <parameterDefinitions>
+        <com.seitenbau.jenkins.plugins.dynamicparameter.scriptler.ScriptlerChoiceParameterDefinition plugin="dynamicparameter@0.2.0">
+          <name>BRANCH_NAME</name>
+          <description></description>
+          <__uuid>6d61d61b-98b8-462f-95f4-23ce947ca9a9</__uuid>
+          <__remote>false</__remote>
+          <__scriptlerScriptId>10.groovy</__scriptlerScriptId>
+          <__parameters>
+            <com.seitenbau.jenkins.plugins.dynamicparameter.scriptler.ScriptlerParameterDefinition_-ScriptParameter>
+              <name></name>
+              <value></value>
+            </com.seitenbau.jenkins.plugins.dynamicparameter.scriptler.ScriptlerParameterDefinition_-ScriptParameter>
+          </__parameters>
+          <readonlyInputField>false</readonlyInputField>
+        </com.seitenbau.jenkins.plugins.dynamicparameter.scriptler.ScriptlerChoiceParameterDefinition>
+        <com.cwctravel.hudson.plugins.extended__choice__parameter.ExtendedChoiceParameterDefinition plugin="extended-choice-parameter@0.74">
+          <name>BUILDS_TRIGGER</name>
+          <description></description>
+          <quoteValue>false</quoteValue>
+          <saveJSONParameterToFile>false</saveJSONParameterToFile>
+          <visibleItemCount>4</visibleItemCount>
+          <type>PT_CHECKBOX</type>
+          <value>MNTLAB-vshulhach-child1-build-job,MNTLAB-vshulhach-child2-build-job,MNTLAB-vshulhach-child3-build-job,MNTLAB-vshulhach-child4-build-job</value>
+          <multiSelectDelimiter>,</multiSelectDelimiter>
+          <projectName>MNTLAB-vshulhach-main-build-job</projectName>
+        </com.cwctravel.hudson.plugins.extended__choice__parameter.ExtendedChoiceParameterDefinition>
+      </parameterDefinitions>
+    </hudson.model.ParametersDefinitionProperty>
+  </properties>
+  <scm class="hudson.scm.NullSCM"/>
+  <canRoam>true</canRoam>
+  <disabled>false</disabled>
+  <blockBuildWhenDownstreamBuilding>false</blockBuildWhenDownstreamBuilding>
+  <blockBuildWhenUpstreamBuilding>false</blockBuildWhenUpstreamBuilding>
+  <jdk>(System)</jdk>
+  <triggers/>
+  <concurrentBuild>false</concurrentBuild>
+  <builders>
+    <hudson.plugins.parameterizedtrigger.TriggerBuilder plugin="parameterized-trigger@2.32">
+      <configs>
+        <hudson.plugins.parameterizedtrigger.BlockableBuildTriggerConfig>
+          <configs>
+            <hudson.plugins.parameterizedtrigger.PredefinedBuildParameters>
+              <properties>BRANCH=${BRANCH_NAME}</properties>
+            </hudson.plugins.parameterizedtrigger.PredefinedBuildParameters>
+          </configs>
+          <projects>${BUILDS_TRIGGER}</projects>
+          <condition>ALWAYS</condition>
+          <triggerWithNoParameters>false</triggerWithNoParameters>
+          <block>
+            <buildStepFailureThreshold>
+              <name>FAILURE</name>
+              <ordinal>2</ordinal>
+              <color>RED</color>
+              <completeBuild>true</completeBuild>
+            </buildStepFailureThreshold>
+            <unstableThreshold>
+              <name>UNSTABLE</name>
+              <ordinal>1</ordinal>
+              <color>YELLOW</color>
+              <completeBuild>true</completeBuild>
+            </unstableThreshold>
+            <failureThreshold>
+              <name>FAILURE</name>
+              <ordinal>2</ordinal>
+              <color>RED</color>
+              <completeBuild>true</completeBuild>
+            </failureThreshold>
+          </block>
+          <buildAllNodesWithLabel>false</buildAllNodesWithLabel>
+        </hudson.plugins.parameterizedtrigger.BlockableBuildTriggerConfig>
+      </configs>
+    </hudson.plugins.parameterizedtrigger.TriggerBuilder>
+  </builders>
+  <publishers/>
+  <buildWrappers/>
+</project>
