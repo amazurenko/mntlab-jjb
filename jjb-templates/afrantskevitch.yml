@@ -2,11 +2,19 @@
    #child
    name: 'MNTLAB-{student}-{child}-build-job'
    parameters:
-      - dynamic-choice:
-          name: BRANCH_NAME
-          description: "1"
-          script: "script here"
-          read-only: false
+       - dynamic-choice:
+             name: BRANCH_NAME
+             description: "1"
+             script: |
+                    def gitURL = "https://github.com/amazurenko/mntlab-jjb.git"
+                    def command = "git ls-remote -h $gitURL"
+                    def proc = command.execute()
+                    proc.waitFor()              
+                    def branches = proc.in.text.readLines().collect {{ 
+                        it.replaceAll(/[a-z0-9]*\trefs\/heads\//, '') 
+                    }}
+                    return branches
+             read-only: false
    scm:
       - git:
            url: git@github.com:amazurenko/mntlab-jjb.git
@@ -36,7 +44,11 @@
             description: ""
             script: "def list = [\"master\",\"afrantskevitch\"]"
             read-only: false
-
+#      builders:
+ #       - trigger-parameterized-builds:
+  #         - project: ${{CHILD_JOB_NAME}}
+   #          predefined-parameters: BRANCH_NAME=${{BRANCH_NAME}}
+              
 - project:
    name: creating_main
    student: afrantskevitch
