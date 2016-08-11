@@ -1,0 +1,25 @@
+- job-template: 
+      name: 'MNTLAB-{student}-child{number}-build-job'
+      parameters:
+          - dynamic-choice:
+                name: BRANCH_NAME
+                script: |
+                    def gitURL = "https://github.com/amazurenko/mntlab-jjb.git"
+                    def command = "git ls-remote -h $gitURL"
+                    def proc = command.execute()
+                    proc.waitFor()              
+                    def branches = proc.in.text.readLines().collect {{ 
+                        it.replaceAll(/[a-z0-9]*\trefs\/heads\//, '') 
+                    }}
+                    def result = branches
+
+- project: 
+        name: child
+        student: "akhurhin"
+        number:
+            - 1
+            - 2
+            - 3
+            - 4
+        jobs:
+            - 'MNTLAB-{student}-child{number}-build-job'
