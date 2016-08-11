@@ -1,0 +1,12 @@
+- job-template:
+    name:test
+- project:
+    name:MNTLABtest
+    student:afrantskevitch
+    childs:
+      - child1
+      - child2
+      - child3
+      - child4
+    jobs:
+      -'{name}-{student}-{childs}-build-job'
