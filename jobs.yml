@@ -15,9 +15,9 @@
                         <saveJSONParameterToFile>false</saveJSONParameterToFile>
                         <visibleItemCount>4</visibleItemCount>
                         <type>PT_CHECKBOX</type>
-                        <value>MNTLAB-akachan-child1-build-job,MNTLAB-akachan-child2-build-job,MNTLAB-akachan-child3-build-job,MNTLAB-akachan-child4-build-job</value>
+                        <value>MNTLAB-ucharches-child1-build-job,MNTLAB-ucharches-child2-build-job,MNTLAB-ucharches-child3-build-job,MNTLAB-ucahrches-child4-build-job</value>
                         <multiSelectDelimiter>,</multiSelectDelimiter>
-                        <projectName>MNTLAB-akachan-main-build-job</projectName>
+                        <projectName>MNTLAB-ucahrches-main-build-job</projectName>
                     </com.cwctravel.hudson.plugins.extended__choice__parameter.ExtendedChoiceParameterDefinition>
 
       builders:
