@@ -1,7 +1,9 @@
-- job-template:
-    name: 'MNTLAB-{student}'
-- project:
-    name: antonv
-    student: anton
-    jobs:
-        - 'MNTLAB-{student}'
+- job:
+    name: 'MNTLAB-atkachenka-main-build-job-laba'
+    project-type: freestyle
+    parameters:
+      - dynamic-choice:
+          name: BRANCH_NAME
+          script: "def list = ['master','atkachenka']"
+          remote: false
+          read-only: false
