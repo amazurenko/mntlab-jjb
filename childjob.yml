@@ -1,0 +1,47 @@
+---
+
+- job-template: 
+      name: 'MNTLAB-{name}-child{number}-build-job'
+      parameters:
+          - dynamic-choice:
+                name: BRANCH_NAME
+                script: |
+                    def gitURL = "https://github.com/amazurenko/mntlab-jjb.git"
+                    def command = "git ls-remote -h $gitURL"
+                    def proc = command.execute()
+                    proc.waitFor()              
+                    def branches = proc.in.text.readLines().collect {{ 
+                        it.replaceAll(/[a-z0-9]*\trefs\/heads\//, '') 
+                    }}
+                    return branches
+      
+      scm:
+          - git:
+                url: git@github.com:amazurenko/mntlab-jjb.git
+                credentials-id: "df35fd6c-f628-43da-b635-f53efe29ab16"
+                branches:
+                    - ${{BRANCH_NAME}}
+                    
+      builders:
+          - shell: |
+                echo $BRANCH_NAME
+                chmod +x *.sh && ./script.sh >> outputlog.txt && tar -cvf ${BRANCH_NAME}.tar.gz conf.ini jobmain.yml
+                ls -la
+                echo "Archive created"                
+      publishers:
+          - archive:
+                artifacts: "outputlog.txt,${{BUILD_NUMBER}}.tar.gz"
+
+                default-excludes: true
+
+
+- project: 
+        name: MNT-child
+        name: "ylikhachou"
+        number:
+            - 1
+            - 2
+            - 3
+            - 4
+        jobs:
+            - 'MNTLAB-{name}-child{number}-build-job'
