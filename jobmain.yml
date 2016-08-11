@@ -5,17 +5,29 @@ builder:
         - shell:
                 #!bin/bash
                 echo "Test of job-name"
-job-templates:
-        name: '-{group}-{st}-{main}-{type}-job'
-        - shell: |
-                #!bin/bash
-                echo "Test of job-name"
-        prject:
-                name: -{group}-{st}-{main}-{type}-job
-                group: MNTLAB
-                st: ylikhachou
-                main: main
-                type: build
-                jobs:
-                       -{group}-{st}-{main}-{type}-job
-                        
+---
+
+- job-template: 
+      name: 'MNTLAB-{name}-main-build-job'
+      parameters:
+          - dynamic-choice:
+                name: BRANCH_NAME
+                script: |
+                    def list = ["ylikhachou","master"]
+          - raw: 
+                xml: |
+               <test> test </test> 
+      builders:
+            - trigger-builds:
+                - project: "${{BUILD_JOBS}}"
+                  predefined-parameters:
+                      BRANCH_NAME=${{BRANCH_NAME}}
+                  block: true 
+
+
+- project: 
+        name: MNT-parent
+        name: "ylikhachou"
+        target: build
+        jobs:
+            - 'MNTLAB-{name}-main-build-job' 
