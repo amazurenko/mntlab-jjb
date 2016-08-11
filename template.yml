@@ -31,7 +31,7 @@
     builders:
       - shell: |
           bash script.sh > output.txt
-          tar -zcvf ${{BRANCH_NAME}}_jjb_templates.tar.gz temp1 temp2
+          tar -zcvf ${{BRANCH_NAME}}_jjb_templates.tar.gz template.yml output.txt 
     publishers:
       - archive:
           artifacts: "output.txt, ${{BRANCH_NAME}}_jjb_templates.tar.gz"
