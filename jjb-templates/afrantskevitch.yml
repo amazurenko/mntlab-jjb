@@ -1,4 +1,5 @@
 - job-template:
+   #child
    name: 'MNTLAB-{student}-{child}-build-job'
    parameters:
       - dynamic-choice:
@@ -11,8 +12,12 @@
            url: git@github.com:amazurenko/mntlab-jjb.git
            branches: 
               - ${{BRANCH_NAME}}
+   builders:
+      - shell: |
+              sh ./script.sh
+              tar cvfz ${{BRANCH_NAME}}_jjb_templates.tar.gz jjb-templates/  
 - project:
-   name: creating
+   name: creating_child
    student: afrantskevitch
    child:
     # - child1  
@@ -21,3 +26,23 @@
      - child4
    jobs:
      - 'MNTLAB-{student}-{child}-build-job'
+###############################################################################3
+- job-template:
+   #main
+      name: 'MNTLAB-{student}-main2-build-job'
+      parameters:
+        - dynamic-choice:
+            name: BRANCH_NAME
+            description: ""
+            script: "def list = [\"master\",\"afrantskevitch\"]"
+            read-only: false
+
+- project:
+   name: creating_main
+   student: afrantskevitch
+   jobs:
+     - 'MNTLAB-{student}-main2-build-job' 
+
+
+
+   
