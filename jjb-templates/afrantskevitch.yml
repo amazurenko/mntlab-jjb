@@ -32,7 +32,7 @@
    name: creating_child
    student: afrantskevitch
    child:
-    # - child1  
+     - child1  
      - child2
      - child3
      - child4
