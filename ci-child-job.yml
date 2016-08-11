@@ -22,7 +22,8 @@
     builders:
        - shell: |
            echo ${{BRANCH_NAME}}
-           chmod a+x ./script.sh >> output.txt
+           chmod a+x ./script.sh
+           ./script.sh  > output.txt
            tar cfz ${{BUILD_TAG}}.tar.gz *.yml *.txt *.ini
     publishers:
        - archive:
