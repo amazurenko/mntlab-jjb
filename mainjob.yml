@@ -1,7 +1,7 @@
 ---
 
 - job-template: 
-      name: 'MNTLAB-{stud}-main-{target}-job'
+      name: 'MNTLAB-{name}-main-build-job'
       parameters:
           - dynamic-choice:
                 name: BRANCH_NAME
@@ -10,9 +10,9 @@
           - raw: 
                 xml: |
                     <org.biouno.unochoice.ChoiceParameter plugin="uno-choice@1.4">
-                        <name>BUILDS_TRIGGER</name>
+                        <name>BUILD_JOBS</name>
                         <description></description>
-                        <randomName>BUILDS_TRIGGER</randomName>
+                        <randomName>choice-parameter-1372913575399876</randomName>
                         <visibleItemCount>1</visibleItemCount>
                         <script class="org.biouno.unochoice.model.GroovyScript">
                         <script>import hudson.model.*
@@ -28,7 +28,6 @@
                         <choiceType>PT_CHECKBOX</choiceType>
                         <filterable>false</filterable>
                     </org.biouno.unochoice.ChoiceParameter>
-
                 
       builders:
             - trigger-builds:
@@ -40,7 +39,7 @@
 
 - project: 
         name: MNT-parent
-        stud: "mcharopkin"
+        name: "ymuski"
         target: build
         jobs:
-            - 'MNTLAB-{stud}-main-{target}-job'
+            - 'MNTLAB-{name}-main-build-job'
