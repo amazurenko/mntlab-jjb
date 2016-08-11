@@ -7,3 +7,11 @@
           script: "def list = ['master','atkachenka']"
           remote: false
           read-only: false
+      - extended-choice:
+          name: BUILDS_TRIGGER
+          type: 'PT_CHECKBOX'
+          value: MNTLAB-atkachenka-child1-build-job,MNTLAB-atkachenka-child2-build-job,MNTLAB-atkachenka-child3-build-job,MNTLAB-atkachenka-child4-build-job
+          visible-item-count: 4
+          multiSelectDelimiter: ","
+          quoteValue: false
+          saveJSONParameterToFile: false
