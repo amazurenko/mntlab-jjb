@@ -1,0 +1,38 @@
+- job-template: 
+    name: 'MNTLAB-{student}-main-build-job'
+    parameters:
+        - dynamic-choice-scriptler:
+            name: BRANCH_NAME
+            description: "choosing a branch"
+            script-id: |
+                def gitURL = "https://github.com/amazurenko/mntlab-jjb.git"
+                def command = "git ls-remote -h $gitURL"
+                def proc = command.execute()
+                proc.waitFor()
+                if ( proc.exitValue() != 0 ) {{
+                println "Error, ${proc.err.text}"
+                System.exit(-1)
+                }}
+                def branches = proc.in.text.readLines().collect {{
+                it.replaceAll(/[a-z0-9]*\trefs\/heads\//, '')
+                }}
+                def list = ["master","vshulhach"]
+
+        - extended-choice:
+            name: BUILDS_TRIGGER
+            description: "select job to build"
+            type: 'PT_CHECKBOX'
+            value: MNTLAB-vshulhach-child1-build-job,MNTLAB-vshulhach-child2-build-job,MNTLAB-vshulhach-child3-build-job,MNTLAB-vshulhach-child4-build-job
+            visible-item-count: "4"
+    builders:
+        - trigger-builds:
+          - project: "${{BUILDS_TRIGGER}}"
+            predefined-parameters:
+              BRANCH=${{BRANCH_NAME}}
+            block: true
+- project:
+   name: myproject
+   student: vshulhach
+   jobs: 
+    - 'MNTLAB-{student}-main-build-job'
+        
