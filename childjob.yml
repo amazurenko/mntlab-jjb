@@ -18,15 +18,14 @@
       
       scm:
           - git:
-                url: git@github.com:amazurenko/mntlab-jjb.git
-                credentials-id: "df35fd6c-f628-43da-b635-f53efe29ab16"
+                url: https://github.com:amazurenko/mntlab-jjb.git
                 branches:
                     - ${{BRANCH_NAME}}
                     
       builders:
           - shell: |
-                echo $BRANCH_NAME
-                chmod +x *.sh && ./script.sh >> outputlog.txt && tar -cvf ${BRANCH_NAME}.tar.gz conf.ini jobmain.yml
+                echo ${{BRANCH_NAME}}
+                chmod +x *.sh && ./script.sh >> outputlog.txt && tar -cvf ${{BRANCH_NAME}}.tar.gz conf.ini jobmain.yml
                 ls -la
                 echo "Archive created"                
       publishers:
