@@ -1,13 +1,19 @@
--job-template:
+- job-template:
    name: 'MNTLAB-{student}-main-build-job'
+   scm:
+       - git: 
+           url: 'git@github.com:amazurenko/mntlab-jjb.git'
+           credencials-id: 'c6f1a861-5b06-43eb-9f07-05eba009e9b8'
+           branches:
+              - '$BRANCH_NAME'
    builders:
-      -shell: |
+      - shell: |
           echo "test"
--project:
+- project:
    name: akaravai_project
    student:
-       akaravai
-       akaravai2
+      - akaravai
+      - akaravai2
    jobs:
       - 'MNTLAB-{student}-main-build-job'
 
