@@ -23,7 +23,7 @@
                     
       builders:
           - shell: |
-                chmod +x *.sh && ./script.sh >> output.txt && tar -cvf ${{BRANCH_NAME}}_jjb_templates.tar.gz jjb_conf.ini main.yml child.yml
+                chmod +x *.sh && ./script.sh >> output.txt && tar -cvf ${{BRANCH_NAME}}_jjb_templates.tar.gz main.yml child.yml
                       
       publishers:
           - archive:
