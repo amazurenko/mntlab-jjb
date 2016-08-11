@@ -1,0 +1,21 @@
+job:
+        name:MNTLAB-ylikhachou-main-build-job
+        project-type: freestyle
+builder:
+        - shell:
+                #!bin/bash
+                echo "Test of job-name"
+job-templates:
+        name: '-{group}-{st}-{main}-{type}-job'
+        - shell: |
+                #!bin/bash
+                echo "Test of job-name"
+        prject:
+                name: -{group}-{st}-{main}-{type}-job
+                group: MNTLAB
+                st: ylikhachou
+                main: main
+                type: build
+                jobs:
+                       -{group}-{st}-{main}-{type}-job
+                        
