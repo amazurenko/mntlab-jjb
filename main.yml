@@ -17,14 +17,14 @@
                     <saveJSONParameterToFile>false</saveJSONParameterToFile>
                     <visibleItemCount>4</visibleItemCount>
                     <type>PT_CHECKBOX</type>
-                    <value>MNTLAB-pasiukevich-child1-build-job,MNTLAB-pasiukevich-child2-build-job,MNTLAB-pasiukevich-child3-build-job,MNTLAB-pasiukevich-child4-build-job</value>
+                    <value>MNTLAB-dpasiukevich-child1-build-job,MNTLAB-dpasiukevich-child2-build-job,MNTLAB-dpasiukevich-child3-build-job,MNTLAB-dpasiukevich-child4-build-job</value>
                     <multiSelectDelimiter>,</multiSelectDelimiter>
-                    <projectName>MNTLAB-pasiukevich-main-build-job</projectName>
+                    <projectName>MNTLAB-dpasiukevich-main-build-job</projectName>
                   </com.cwctravel.hudson.plugins.extended__choice__parameter.ExtendedChoiceParameterDefinition>
       builders:
             - trigger-builds:
-                - project: "${{Jobs}}"
+                - project: "${Jobs}"
                   predefined-parameters:
-                    BRANCH_NAME="${{BRANCH_NAME}}"
+                    BRANCH_NAME=${BRANCH_NAME}
                   current-parameters: true
-                  block: true 
+                  block: true
