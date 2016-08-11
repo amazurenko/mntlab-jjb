@@ -1,25 +1,27 @@
+---
+
 - job-template:
-   name: 'MNTLAB-{student}-{child}-build-job'
-   properties:
-       -raw:
-         xml: |
-           <hudson.model.ParametersDefinitionProperty>
-             <parameterDefinitions>
-                <net.uaznia.lukanus.hudson.plugins.gitparameter.GitParameterDefinition plugin="git-parameter@0.6.1">
-                  <name>BRANCH_NAME</name>
-                  <description></description>
-                  <uuid>c4229d91-e261-464c-83ec-cf31fc848618</uuid>
-                  <type>PT_BRANCH</type>
-                  <branch></branch>
-                  <tagFilter>*</tagFilter>
-                  <branchFilter>.*</branchFilter>
-                  <sortMode>ASCENDING</sortMode>
-                  <defaultValue></defaultValue>
-                  <selectedValue>TOP</selectedValue>
-                  <quickFilterEnabled>false</quickFilterEnabled>
-                </net.uaznia.lukanus.hudson.plugins.gitparameter.GitParameterDefinition>
-             </parameterDefinitions>
-           </hudson.model.ParametersDefinitionProperty>
+    name: 'MNTLAB-{student}-{child}-build-job'
+    properties:
+        - raw:
+            xml: |
+                <hudson.model.ParametersDefinitionProperty>
+                  <parameterDefinitions>
+                     <net.uaznia.lukanus.hudson.plugins.gitparameter.GitParameterDefinition plugin="git-parameter@0.6.1">
+                       <name>BRANCH_NAME</name>
+                       <description></description>
+                       <uuid>c4229d91-e261-464c-83ec-cf31fc848618</uuid>
+                       <type>PT_BRANCH</type>
+                       <branch></branch>
+                       <tagFilter>*</tagFilter>
+                       <branchFilter>.*</branchFilter>
+                       <sortMode>ASCENDING</sortMode>
+                       <defaultValue></defaultValue>
+                       <selectedValue>TOP</selectedValue>
+                       <quickFilterEnabled>false</quickFilterEnabled>
+                     </net.uaznia.lukanus.hudson.plugins.gitparameter.GitParameterDefinition>
+                  </parameterDefinitions>
+                </hudson.model.ParametersDefinitionProperty>
     scm:
        - git: 
            url: 'git@github.com:amazurenko/mntlab-jjb.git'
@@ -27,27 +29,27 @@
            branches:
               - ${{BRANCH_NAME}}
            name: 'origin'
-   builders:
-      - shell: |
-          echo ${{BRANCH_NAME}}
-          tar cvf ${{BUILD_TAG}}.tar.gz *.yml\
-   publishers:
-      - archive:
-           artifacts: '*.tar.gz'
-           allow-empty: 'true'
-           fingerprint: true
-           default-excludes: false
+    builders:
+       - shell: |
+           echo ${{BRANCH_NAME}}
+           tar cvf ${{BUILD_TAG}}.tar.gz *.yml
+    publishers:
+       - archive:
+            artifacts: '*.tar.gz'
+            allow-empty: 'true'
+            fingerprint: true
+            default-excludes: false
 
 - project:
-   name: akaravai_project
-   student:
-      - akaravai
-   child:
-      - child1
-      - child2
-      - child3
-      - child4  
-   jobs:
-      - 'MNTLAB-{student}-{child}-build-job'
+    name: akaravai_project
+    student:
+       - akaravai
+    child:
+       - child1
+       - child2
+       - child3
+       - child4  
+    jobs:
+       - 'MNTLAB-{student}-{child}-build-job'
 
 
