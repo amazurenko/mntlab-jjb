@@ -2,8 +2,29 @@
     name: 'MNTLAB-ymihura-main-build-job'
     description: 'Run child* downstream jobs'
     concurrent: false
-    node: 'master'
 
     properties:
     - heavy-job:
         weight: 1
+    parameters:
+    - choice:
+        name: BRANCH_NAME
+        choices:
+        - ymihura
+        - master
+        description: "Branch to build"
+
+    - extended-choice:
+        name: BUILDS_TRIGGER
+        description: "Available options"
+        type: 'checkbox'
+        value: MNTLAB-ymihura-child1-build-job,MNTLAB-ymihura-child2-build-job,MNTLAB-ymihura-child3-build-job,MNTLAB-ymihura-child4-build-job
+        visible-item-count: "4"
+
+    builders:
+      - trigger-builds:
+        - project: '$BUILDS_TRIGGER'
+          predefined-parameters: |
+            BRANCH_NAME=$BRANCH_NAME
+          block: true
+

@@ -7,3 +7,28 @@
       artifactNumToKeep: -1
       daysToKeep: 30
       numToKeep: 50
+
+    parameters:
+    - dynamic-choice:
+        name: BRANCH_NAME
+        description: 'Branch to build'
+        script: !include-raw-escape: '../scripts/choose-branch.groovy'
+
+    scm:
+    - git:
+       url: 'https://github.com/amazurenko/mntlab-jjb.git'
+       skip-tag: true
+       branches:
+         - '$BRANCH_NAME'
+
+    builders:
+    - shell: |
+        #!/bin/bash
+        chmod +x script.sh
+        ./script.sh > output.txt
+        mkdir artifacts
+        tar -zcvf artifacts/${{BRANCH_NAME}}_jjb_templates.tar.gz --exclude=./artifacts .
+        publishers:
+        - archive:
+           artifacts: 'artifacts/*.tar.gz'
+        
