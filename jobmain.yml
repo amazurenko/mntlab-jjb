@@ -1,22 +1,31 @@
-job:
-        name:MNTLAB-ylikhachou-main-build-job
-        project-type: freestyle
-builder:
-        - shell:
-                #!bin/bash
-                echo "Test of job-name"
----
-
+- project: 
+        name: MNT-parent
+        name: "ylikhachou"
+        target: build
+        jobs:
+            - 'MNTLAB-{name}-main-build-job'
 - job-template: 
-      name: 'MNTLAB-{name}-main-build-job'
+      name: 'MNTLAB-{student}-main-build-job'
       parameters:
           - dynamic-choice:
-                name: BRANCH_NAME
-                script: |
-                    def list = ["ylikhachou","master"]
+              name: BRANCH_NAME
+              script: "def list = ['master','ylikhachou']"
+              remote: false
+              read-only: false
           - raw: 
                 xml: |
-               <test> test </test> 
+                    <com.cwctravel.hudson.plugins.extended__choice__parameter.ExtendedChoiceParameterDefinition plugin="extended-choice-parameter@0.74">
+                        <name>BUILDS_TRIGGER</name>
+                        <description></description>
+                        <quoteValue>false</quoteValue>
+                        <saveJSONParameterToFile>false</saveJSONParameterToFile>
+                        <visibleItemCount>4</visibleItemCount>
+                        <type>PT_CHECKBOX</type>
+                        <value>MNTLAB-atkachenka-child1-build-job,MNTLAB-atkachenka-child2-build-job,MNTLAB-atkachenka-child3-build-job,MNTLAB-atkachenka-child4-build-job</value>
+                        <multiSelectDelimiter>,</multiSelectDelimiter>
+                        <projectName>MNTLAB-atkachenka-main-build-job</projectName>
+                    </com.cwctravel.hudson.plugins.extended__choice__parameter.ExtendedChoiceParameterDefinition>
+                
       builders:
             - trigger-builds:
                 - project: "${{BUILD_JOBS}}"
@@ -27,7 +36,6 @@ builder:
 
 - project: 
         name: MNT-parent
-        name: "ylikhachou"
-        target: build
+        student: "ylikhachou"
         jobs:
-            - 'MNTLAB-{name}-main-build-job' 
+            - 'MNTLAB-{student}-main-build-job' 
