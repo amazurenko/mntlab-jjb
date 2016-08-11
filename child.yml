@@ -1,18 +1,19 @@
 ---
+
 - job-template: 
       name: 'MNTLAB-{name}-child{number}-build-job'
       parameters:
           - dynamic-choice:
-            name: BRANCH_NAME
-            script: |
-                def gitURL = "https://github.com/amazurenko/mntlab-jjb.git"
-                def command = "git ls-remote -h $gitURL"
-                def proc = command.execute()
-                proc.waitFor()              
-                def branches = proc.in.text.readLines().collect {{ 
-                it.replaceAll(/[a-z0-9]*\trefs\/heads\//, '') 
-                }}
-                return branches
+               name: BRANCH_NAME
+               script: |
+                        def gitURL = "https://github.com/amazurenko/mntlab-jjb.git"
+                        def command = "git ls-remote -h $gitURL"
+                        def proc = command.execute()
+                        proc.waitFor()              
+                        def branches = proc.in.text.readLines().collect {{ 
+                        it.replaceAll(/[a-z0-9]*\trefs\/heads\//, '') 
+                        }}
+                        return branches
       
       scm:
           - git:
@@ -24,11 +25,11 @@
       builders:
           - shell: |
                 echo "Hello World. Current branch is" $BRANCH_NAME >> output.txt
-                tar -czf ${BRANCH_NAME}_jjb_templates.tar.gz jenkins_jobs.ini output.txt *.yml
+                tar -czf ${{BRANCH_NAME}}_jjb_templates.tar.gz jenkins_jobs.ini output.txt *.yml
       
       publishers:
           - archive:
-                artifacts: "${BRANCH_NAME}_jjb_templates.tar.gz"
+                artifacts: "${{BRANCH_NAME}}_jjb_templates.tar.gz"
                 default-excludes: true
 
 
