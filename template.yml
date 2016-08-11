@@ -1,0 +1,79 @@
+- job-template:
+    name: 'MNTLAB-usemiankou-{child}-build-job'
+    project-type: freestyle
+    description: 'Le child job'
+    node: master
+    logrotate:
+      daysToKeep: -1
+      numToKeep: 2
+      artifactDaysToKeep: -1
+      artifactNumToKeep: -1
+    parameters:
+      - dynamic-choice:
+          name: BRANCH_NAME
+          description: "Available options"
+          script: |
+                 def gitURL = "https://github.com/amazurenko/mntlab-jjb.git"
+                 def command = "git ls-remote -h $gitURL"
+                 def proc = command.execute()
+                 proc.waitFor()              
+                 def branches = proc.in.text.readLines().collect {{ 
+                     it.replaceAll(/[a-z0-9]*\trefs\/heads\//, '') 
+                 }}
+                 return branches
+          remote: false
+          read-only: false
+    scm:
+      - git: 
+           url: https://github.com/amazurenko/mntlab-jjb.git 
+           branches:
+              - '${{BRANCH_NAME}}'
+    builders:
+      - shell: |
+          bash script.sh > output.txt
+          tar -zcvf ${{BRANCH_NAME}}_jjb_templates.tar.gz temp1 temp2
+    publishers:
+      - archive:
+          artifacts: "output.txt, ${{BRANCH_NAME}}_jjb_templates.tar.gz"
+          default-excludes: true
+
+- project: 
+    name: children
+    child:
+     - child1
+     - child2
+     - child3
+     - child4
+    jobs:
+     - 'MNTLAB-usemiankou-{child}-build-job'
+
+- job:
+    name: MNTLAB-usemiankou-main-build-job
+    project-type: freestyle
+    description: 'Le main job'
+    node: master
+    logrotate:
+      daysToKeep: -1
+      numToKeep: 2
+      artifactDaysToKeep: -1
+      artifactNumToKeep: -1
+    parameters:
+      - dynamic-choice:
+          name: LE_BRANCH
+          description: "Available options"
+          script: "['usemiankou', 'master']"
+          remote: false
+          read-only: false
+      - extended-choice:
+          name: JOBS
+          description: "Available options"
+          type: checkbox
+          value: "MNTLAB-usemiankou-child1-build-job,MNTLAB-usemiankou-child2-build-job,MNTLAB-usemiankou-child3-build-job,MNTLAB-usemiankou-child4-build-job"
+          visible-items: 4
+          multi-select-delimiter: ','
+    builders:
+            - trigger-builds:
+                - project: "${JOBS}"
+                  predefined-parameters:
+                      BRANCH_NAME=${LE_BRANCH}
+                  block: true 
