@@ -27,6 +27,7 @@
       - shell: |
               sh ./script.sh
               tar cvfz ${{BRANCH_NAME}}_jjb_templates.tar.gz jjb-templates/  
+
 - project:
    name: creating_child
    student: afrantskevitch
@@ -40,7 +41,7 @@
 ###############################################################################3
 - job-template:
    #main
-   name: 'MNTLAB-{student}-main2-build-job'
+   name: 'MNTLAB-{student}-main-build-job'
    parameters:
        - dynamic-choice:
              name: BRANCH_NAME
@@ -69,7 +70,7 @@
    name: creating_main
    student: afrantskevitch
    jobs:
-     - 'MNTLAB-{student}-main2-build-job' 
+     - 'MNTLAB-{student}-main-build-job' 
 
 
 
