@@ -17,8 +17,7 @@
       
       scm:
           - git:
-                url: git@github.com:amazurenko/mntlab-jjb.git
-                credentials-id: "52d43f87-54b8-4f52-8056-5e1e728016e0"
+                url: https://github.com/amazurenko/mntlab-jjb.git
                 branches:
                     - ${{BRANCH_NAME}}
                     
