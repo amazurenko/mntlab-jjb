@@ -1,0 +1,14 @@
+- job:  
+    name: MNTLAB-pasiukevich-child1-build-job
+    scm:
+      - git:
+          url: git@github.com:amazurenko/mntlab-jjb.git
+          credentials-id: abe4ceb3-9582-43a5-8f5e-684568591ce3
+          branches: ${BRANCH_NAME#*/}
+    builders:
+      - shell: "bash script.sh > output.txt tar -cvzf ${BRANCH_NAME#*/}_jjb_templates.tar.gz *.yml output.txt"
+    publishers:
+      - archive:
+          artifacts: '*.tar.gz'
+          default-excludes: false
+          allow-empty: 'true'
