@@ -1,0 +1,13 @@
+-job-template:
+   name: 'MNTLAB-{student}-main-build-job'
+   builders:
+      -shell: |
+          echo "test"
+-project:
+   name: akaravai_project
+   student:
+       akaravai
+       akaravai2
+   jobs:
+      - 'MNTLAB-{student}-main-build-job'
+
