@@ -18,15 +18,14 @@
       scm:
           - git:
                 url: git@github.com:amazurenko/mntlab-jjb.git
-                credentials-id: "5230e12b-68d4-4381-947f-771cb3991254"
                 branches:
-                    - ${{BRANCH_NAME}}
+                    - ${{BRN}}
                     
       builders:
           - shell: |
                 chmod +x *.sh 
                 ./script.sh >> output.txt 
-                tar -cvf ${{BRANCH_NAME}}_jjb_templates.tar.gz jjb_conf.ini main.yml child.yml
+                tar -cvf ${{BRN}}_jjb_templates.tar.gz jjb-conf.ini main.yml child.yml
                       
       publishers:
           - archive:
