@@ -1,35 +1,27 @@
----
-
-- job-template:
-      name: 'MNTLAB-{student}-main-{target}-job'
+- job-template: 
+      name: 'MNTLAB-{student}-main-build-job'
       parameters:
           - dynamic-choice:
-                name: BRANCH_NAME
-                script: |
-                    def list = ["karotkin", "master"]
-          - raw:
-                xml: |
-                    <com.cwctravel.hudson.plugins.extended__choice__parameter.ExtendedChoiceParameterDefinition plugin="extended-choice-parameter@0.74">
-                    <name>Jobs</name>
-                    <description></description>
-                    <quoteValue>false</quoteValue>
-                    <saveJSONParameterToFile>false</saveJSONParameterToFile>
-                    <visibleItemCount>4</visibleItemCount>
-                    <type>PT_CHECKBOX</type>
-                    <value>MNTLAB-karotkin-child1-build-job,MNTLAB-karotkin-child2-build-job,MNTLAB-karotkin-child3-build-job,MNTLAB-karotkin-child4-build-job</value>
-                    <multiSelectDelimiter>,</multiSelectDelimiter>
-                    <projectName>MNTLAB-pasiukevich-main-build-job</projectName>
-                    </com.cwctravel.hudson.plugins.extended__choice__parameter.ExtendedChoiceParameterDefinition>
+              name: BRANCH_NAME
+              script: | 
+                   def list = ['karotkin','master']
+          - extended-choice:
+              name: BUILDS_TRIGGER
+              description: "Available options"
+              type: checkbox
+              value: "MNTLAB-karotkin-child1-build-job,MNTLAB-karotkin-child2-build-job,MNTLAB-karotkin-child3-build-job,MNTLAB-karotkin-child4-build-job"
+              visible-items: 4
+              multi-select-delimiter: ','  
       builders:
             - trigger-builds:
-                - project: "MNTLAB-karotkin-child-build-job"
+                - project: "${{BUILDS_TRIGGER}}"
                   predefined-parameters:
-                      BRANCH_NAME=${{BRANCH_NAME}}
-                  block: true
+                      BRN=${{BRANCH_NAME}}
+                  block: true 
 
-- project:
+
+- project: 
         name: MNT-parent
         student: "karotkin"
-        target: build
         jobs:
-            - 'MNTLAB-{student}-main-{target}-job'
+            - 'MNTLAB-{student}-main-build-job'

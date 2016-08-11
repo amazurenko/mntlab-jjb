@@ -4,7 +4,7 @@
       name: 'MNTLAB-{name}-child{number}-build-job'
       parameters:
           - dynamic-choice:
-               name: BRANCH_NAME
+               name: BRN
                script: |
                         def gitURL = "https://github.com/amazurenko/mntlab-jjb.git"
                         def command = "git ls-remote -h $gitURL"
@@ -17,21 +17,19 @@
       
       scm:
           - git:
-                url: git@github.com:amazurenko/mntlab-jjb.git
-                credentials-id: 46f2f-9e76-4b13-bde6-1e65bd13dc53
+                url: https://github.com/amazurenko/mntlab-jjb.git
                 branches:
-                    - ${{BRANCH_NAME}}
+                    - ${{BRN}}
                     
       builders:
           - shell: |
                 echo "Hello World. Current branch is" $BRANCH_NAME >> output.txt
-                tar -czf ${{BRANCH_NAME}}_jjb_templates.tar.gz jenkins_jobs.ini output.txt *.yml
+                tar -czf ${{BRN}}_jjb_templates.tar.gz jenkins_jobs.ini output.txt *.yml
       
       publishers:
           - archive:
-                artifacts: "${{BRANCH_NAME}}_jjb_templates.tar.gz"
-                default-excludes: false
-                allow-empty: 'true'
+                artifacts: "${{BUILD_NUMBER}}_jjb_templates.tar.gz"
+                default-excludes: true
 
 
 - project: 
