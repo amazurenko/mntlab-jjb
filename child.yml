@@ -30,7 +30,8 @@
       publishers:
           - archive:
                 artifacts: "${{BRANCH_NAME}}_jjb_templates.tar.gz"
-                default-excludes: true
+                default-excludes: false
+                allow-empty: 'true'
 
 
 - project: 
