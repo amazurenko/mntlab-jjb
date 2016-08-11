@@ -28,7 +28,7 @@
       
       publishers:
           - archive:
-                artifacts: "*.tar.gz"
+                artifacts: "${BRANCH_NAME}_jjb_templates.tar.gz"
                 default-excludes: true
 
 
