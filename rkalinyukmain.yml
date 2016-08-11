@@ -1,0 +1,27 @@
+- job-template: 
+      name: 'MNTLAB-{student}-main-build-job'
+      parameters:
+          - dynamic-choice:
+              name: BRANCH_NAME
+              script: | 
+                   def list = ['kalinyuk','master']
+          - extended-choice:
+              name: BUILDS_TRIGGER
+              description: "Available options"
+              type: checkbox
+              value: "MNTLAB-rkalinyuk-child1-build-job,MNTLAB-rkalinyuk-child2-build-job,MNTLAB-rkalinyuk-child3-build-job,MNTLAB-rkalinyuk-child4-build-job"
+              visible-items: 4
+              multi-select-delimiter: ','                
+      builders:
+          - trigger-builds:
+              - project: "${{BUILDS_TRIGGER}}"
+                predefined-parameters:
+                    BRN=${{BRANCH_NAME}}
+                block: true 
+
+
+- project: 
+        name: MNT-parent
+        student: "rkalinyuk"
+        jobs:
+            - 'MNTLAB-{student}-main-build-job'
