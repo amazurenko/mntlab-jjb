@@ -1,5 +1,5 @@
 - job-template: 
-      name: 'MNTLAB-{student}-main-build-job-laba'
+      name: 'MNTLAB-{student}-main-build-job'
       parameters:
           - dynamic-choice:
               name: BRANCH_NAME
@@ -15,7 +15,7 @@
                         <saveJSONParameterToFile>false</saveJSONParameterToFile>
                         <visibleItemCount>4</visibleItemCount>
                         <type>PT_CHECKBOX</type>
-                        <value>MNTLAB-atkachenka-child1-build-job-laba,MNTLAB-atkachenka-child2-build-job-laba,MNTLAB-atkachenka-child3-build-job-laba,MNTLAB-atkachenka-child4-build-job-laba</value>
+                        <value>MNTLAB-atkachenka-child1-build-job,MNTLAB-atkachenka-child2-build-job,MNTLAB-atkachenka-child3-build-job,MNTLAB-atkachenka-child4-build-job</value>
                         <multiSelectDelimiter>,</multiSelectDelimiter>
                         <projectName>MNTLAB-atkachenka-main-build-job</projectName>
                     </com.cwctravel.hudson.plugins.extended__choice__parameter.ExtendedChoiceParameterDefinition>
@@ -32,4 +32,4 @@
         name: MNT-parent
         student: "atkachenka"
         jobs:
-            - 'MNTLAB-{student}-main-build-job-laba'
+            - 'MNTLAB-{student}-main-build-job'
