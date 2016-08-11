@@ -2,7 +2,14 @@
     name: '{project_name}-{student}-{type}-{child}-build-job'
     builders:
      - shell: |
-        echo "test"
+        echo "child job"
+
+- job-template:
+    name: '{project_name}-{student}-{type}-main-job'
+    builders:
+     - shell: |
+        echo "main job"
+
 
 - job-group:
    name: '{project_name}-{student}-{type}'
@@ -21,4 +28,4 @@
     type: task9
     jobs:
       - '{project_name}-{student}-{type}'
-
+      - '{project_name}-{student}-{type}-main-job'
