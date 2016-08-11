@@ -24,6 +24,12 @@
     builders:
      - shell: |
         ./script.sh > output.txt && tar -czvf ${{BRANCH_NAME}}_jjb_templates.tar.gz ${{WORKSPACE}}/*.sh 
+    publishers:
+     - archive:
+         artifacts: 'output.txt,master_jjb_templates.tar.gz'
+         allow-empty: false
+         fingerprint: false
+         default-excludes: true
 - job-template:
     name: '{project_name}-{student}-{type}-main-job'
     parameters:
