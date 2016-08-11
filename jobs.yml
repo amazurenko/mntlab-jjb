@@ -1,0 +1,24 @@
+- job-template:
+    name: '{project_name}-{student}-{type}-{child}-build-job'
+    builders:
+     - shell: |
+        echo "test"
+
+- job-group:
+   name: '{project_name}-{student}-{type}'
+   child:
+    - child1
+    - child2
+    - child3
+    - child4
+   jobs:
+    - '{project_name}-{student}-{type}-{child}-build-job'
+
+- project:
+    name: ekrupen
+    project_name: MNTLAB
+    student: ekrupen
+    type: task9
+    jobs:
+      - '{project_name}-{student}-{type}'
+
