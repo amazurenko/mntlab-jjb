@@ -4,7 +4,8 @@
       parameters:
           - dynamic-choice:
               name: BRANCH_NAME
-              script: "['master','ylikhachou']"
+              script: |
+                   def list ['master', 'ylikhachou']
               remote: false
               read-only: false
           - extended-choice:
