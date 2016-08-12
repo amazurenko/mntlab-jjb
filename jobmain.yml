@@ -5,7 +5,7 @@
           - dynamic-choice:
               name: BRANCH_NAME
               script: |
-                   def list ['master', 'ylikhachou']
+                   def list = ['master', 'ylikhachou']
               remote: false
               read-only: false
           - extended-choice:
