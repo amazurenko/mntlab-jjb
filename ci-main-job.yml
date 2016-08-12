@@ -13,6 +13,7 @@
            name: BUILD_JOBS
            description: "which jobs to trigger"
            type: 'PT_CHECKBOX'
+           default-value: 'MNTLAB-akaravai-child1-build-job'
            value: 'MNTLAB-akaravai-child1-build-job,MNTLAB-akaravai-child2-build-job,MNTLAB-akaravai-child3-build-job,MNTLAB-akaravai-child4-build-job'
            visible-item-count: "4"
     builders:
