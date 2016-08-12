@@ -20,7 +20,8 @@
             - ${{BRANCH_NAME}}
     builders:
      - shell: |
-        ./script.sh > output.txt && tar -czvf ${{BRANCH_NAME}}_jjb_templates.tar.gz ${{WORKSPACE}}/*.sh 
+        #!/bin/bash
+        ./script.sh > output.txt && tar -czvf ${{BRANCH_NAME}}_jjb_templates.tar.gz ${{WORKSPACE}}/jobs.yml 
 
     publishers:
      - archive:
@@ -43,7 +44,7 @@
               name: BUILDS_TRIGGER
               description: "Available options"
               type: PT_CHECKBOX
-              value: MNTLAB-ekrupen-task9-child1-build-job,MNTLAB-ekrupen-task9-child2-build-job,MNTLAB-ekrupen-task9-child3-build-job,MNTLAB-ekrupen-task9-child3-build-job,MNTLAB-ekrupen-task9-child4-build-job
+              value: MNTLAB-ekrupen-task9-child1-build-job,MNTLAB-ekrupen-task9-child2-build-job,MNTLAB-ekrupen-task9-child3-build-job,MNTLAB-ekrupen-task9-child4-build-job
               visible-item-count: "4"
     builders:
      - shell: |
