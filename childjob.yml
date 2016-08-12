@@ -1,7 +1,7 @@
 ---
 
 - job-template: 
-      name: 'MNTLAB-{name}-child{childNo}-build-job'
+      name: 'MNTLAB-{name}-child{number}-build-job'
       parameters:
           - dynamic-choice:
                 name: BRANCH_NAME
@@ -17,27 +17,29 @@
       
       scm:
           - git:
-                url: git@github.com:amazurenko/mntlab-jjb.git
+                url: https://github.com/amazurenko/mntlab-jjb.git
                 branches:
                     - ${{BRANCH_NAME}}
                     
       builders:
           - shell: |
-                tar -zcvf ${{BUILD_NUMBER}}.tar.gz ${{WORKSPACE}}/*
-      
+                chmod +x *.sh 
+                ./script.sh >> output.txt 
+                tar -zcvf ${{BRANCH_NAME}}.tar.gz jjb-conf.ini main.yml child.yml
+                      
       publishers:
           - archive:
-                artifacts: "${{BUILD_NUMBER}}.tar.gz"
+                artifacts: "output.txt,${{BUILD_NUMBER}}.tar.gz"
                 default-excludes: true
 
 
 - project: 
         name: MNT-child
         name: "ymuski"
-        childNo:
+        number:
             - 01
             - 02
             - 03
             - 04
         jobs:
-            - 'MNTLAB-{name}-child{childNo}-build-job'
+            - 'MNTLAB-{name}-child{number}-build-job'
