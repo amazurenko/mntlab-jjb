@@ -27,4 +27,4 @@
                           predefined-parameters:
                             BRANCH_NAME=${BRANCH_NAME}
                           current-parameters: true
-                      block: true
+                          block: true
