@@ -6,7 +6,7 @@
           - choice:
               name: BRANCH_NAME
               choices:
-                - pasiukevich
+                - dpasiukevich
                 - master
           - extended-choice:
               name: Jobs
