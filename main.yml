@@ -15,9 +15,16 @@
               visible-items: 4
               multi-select-delimiter: ','
       builders:
-            - trigger-builds:
-                - project: "${Jobs}"
-                  predefined-parameters:
-                    BRANCH_NAME=${BRANCH_NAME}
-                  current-parameters: true
-                  block: true
+            - conditional-step:
+                condition-kind: not
+                condition-operand:
+                    condition-kind: strings-match
+                    condition-string1: "${Jobs}"
+                    condition-string2: ""
+                steps:
+                    - trigger-builds:
+                        - project: "${Jobs}"
+                          predefined-parameters:
+                            BRANCH_NAME=${BRANCH_NAME}
+                          current-parameters: true
+                      block: true
