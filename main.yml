@@ -8,19 +8,12 @@
               choices:
                 - pasiukevich
                 - master
-          - raw: 
-                xml: 
-                  <com.cwctravel.hudson.plugins.extended__choice__parameter.ExtendedChoiceParameterDefinition plugin="extended-choice-parameter@0.74">
-                    <name>Jobs</name>
-                    <description></description>
-                    <quoteValue>false</quoteValue>
-                    <saveJSONParameterToFile>false</saveJSONParameterToFile>
-                    <visibleItemCount>4</visibleItemCount>
-                    <type>PT_CHECKBOX</type>
-                    <value>MNTLAB-dpasiukevich-child1-build-job,MNTLAB-dpasiukevich-child2-build-job,MNTLAB-dpasiukevich-child3-build-job,MNTLAB-dpasiukevich-child4-build-job</value>
-                    <multiSelectDelimiter>,</multiSelectDelimiter>
-                    <projectName>MNTLAB-dpasiukevich-main-build-job</projectName>
-                  </com.cwctravel.hudson.plugins.extended__choice__parameter.ExtendedChoiceParameterDefinition>
+          - extended-choice:
+              name: Jobs
+              type: checkbox
+              value: "MNTLAB-dpasiukevich-child1-build-job,MNTLAB-dpasiukevich-child2-build-job,MNTLAB-dpasiukevich-child3-build-job,MNTLAB-dpasiukevich-child4-build-job"
+              visible-items: 4
+              multi-select-delimiter: ','
       builders:
             - trigger-builds:
                 - project: "${Jobs}"

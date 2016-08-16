@@ -18,13 +18,12 @@
           branches:
               - "${{BRANCH_NAME}}"
     builders:
-      - shell: "bash script.sh > output.txt; tar -cvzf ${{BRANCH_NAME}}_jjb_templates.tar.gz *.yml output.txt"
+      - shell: "bash script.sh > output.txt; tar -cvzf ${{BRANCH_NAME}}_jjb_templates.tar.gz *.yml"
     publishers:
       - archive:
-          artifacts: '*.tar.gz'
+          artifacts: '*.tar.gz, output.txt'
           default-excludes: false
           allow-empty: 'true'
-
 
 - project:
         name: MNT
