@@ -36,6 +36,9 @@ def set_for_jobs = [
 for ( i in  set_for_jobs.keySet() ) {
   
   job( i ) {
+    logRotator {
+        numToKeep(15)
+    }
     label('taf-bdd-prod7')
     wrappers {
       colorizeOutput()
@@ -97,6 +100,9 @@ def set_for_paral_jobs = [
 
 for ( i in  set_for_paral_jobs.keySet() ) {
   job( i ) {
+    logRotator {
+        numToKeep(15)
+    }
     label('taf-bdd-prod7')
     wrappers {
       colorizeOutput()
