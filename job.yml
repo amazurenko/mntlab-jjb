@@ -1,0 +1,68 @@
+- project:
+    name: project-name
+    jobs:
+      - 'MNTLAB-{name}-main-build-job':
+          name: hskuratau
+      - 'MNTLAB-{name}-child{number}-build-job':
+          name: hskuratau
+          number: 
+                - 1
+                - 2
+                - 3
+                - 4
+- job-template:
+    node: master
+    name: 'MNTLAB-{name}-main-build-job'
+    project-type: freestyle
+    parameters:
+    - dynamic-choice:
+        name: BRANCH
+        description: "Branches"
+        script: "['hskuratau', 'master']"
+        remote: false
+        read-only: false
+    - extended-choice:
+        name: BUILDS_TRIGGER 
+        description: "Available options"
+        type: 'PT_CHECKBOX'
+        value: MNTLAB-{name}-child1-build-job, MNTLAB-{name}-child2-build-job, MNTLAB-{name}-child3-build-job, MNTLAB-{name}-child4-build-job
+        visible-item-count: "5"
+    builders:
+        - trigger-builds:
+            - project: "${{BUILDS_TRIGGER}}"
+              predefined-parameters:
+                  BRANCHNAME=${{BRANCH}}
+              block: true 
+- job-template:
+    name: 'MNTLAB-{name}-child{number}-build-job'
+    project-type: freestyle
+    parameters:
+        - dynamic-choice:
+              name: BRANCHNAME
+              script: |
+                  def gitURL = "https://github.com/amazurenko/mntlab-jjb.git"
+                  def command = "git ls-remote -h $gitURL"
+                  def proc = command.execute()
+                  proc.waitFor()              
+                  def branches = proc.in.text.readLines().collect {{ 
+                      it.replaceAll(/[a-z0-9]*\trefs\/heads\//, '') 
+                  }}
+                  return branches
+    scm:
+        - git:
+              url: https://github.com/amazurenko/mntlab-jjb.git
+              branches:
+                  - ${{BRANCHNAME}}
+                  
+    builders:
+        - shell: |
+              chmod +x *.sh
+              ./script.sh >> output.txt
+              tar -cvf ${{BRANCHNAME}}_jjb_templates.tar job.yml
+    publishers:
+      - archive:
+          artifacts: "job.yml, output.txt, script.sh"
+          allow-empty: 'true'
+          fingerprint: true
+          default-excludes: false
+
